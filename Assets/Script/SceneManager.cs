@@ -13,9 +13,9 @@ public class SceneManager : MonoBehaviour
         RESULT
     }
     public List<string> mainGameTags = new List<string>(); //MainGameにて使用するオブジェクトのTagを格納
-    const byte TITLE = 0;
-    const byte MAINGAME = 1;
-    const byte RESULT = 2;
+    //public const byte TITLE = 0;
+    //public const byte MAINGAME = 1;
+    //public const byte RESULT = 2;
 
     byte nowScene;
 
@@ -38,8 +38,8 @@ public class SceneManager : MonoBehaviour
         mainGameTags.Add("UILife");
         mainGameTags.Add("Trash");
         
-        nowScene = TITLE;
-        changeScene(TITLE);
+        nowScene = (int)scene.TITLE;
+        changeScene(nowScene);
         for (int i = 0; i < mainGameTags.Count; i++)
         {
             Debug.Log("gameTag[0] = " + mainGameTags[i]);
@@ -87,6 +87,9 @@ public class SceneManager : MonoBehaviour
         nowScene = (byte)orderScene;
 
 
+    }
+    public void changeScene(scene orderScene){
+        changeScene((int)orderScene);
     }
 
     public bool changePouse(bool isPouse)

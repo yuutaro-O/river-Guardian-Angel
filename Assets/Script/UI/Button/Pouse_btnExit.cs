@@ -19,6 +19,6 @@ public class Pouse_btnExit : MonoBehaviour {
     public void ButtonPush()
     {
         globalField.pouseFlg = sceneManager.changePouse(false);
-        sceneManager.changeScene(0);
+        sceneManager.changeScene((int)SceneManager.scene.TITLE);
     }
 }

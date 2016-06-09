@@ -3,13 +3,15 @@ using System.Collections;
 
 public class UIFishLife : MonoBehaviour {
     public GlobalField globalField;
+    public int MaxLife;
     Vector3 tagViewport;
     public GameObject Life;
     public GameObject[] copyLife;
 
     UIFishLife()
     {
-        copyLife = new GameObject[globalField.life.max];
+        
+        //copyLife = new GameObject[globalField.life.max];
 
     }
     

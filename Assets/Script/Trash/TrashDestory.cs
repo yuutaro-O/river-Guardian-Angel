@@ -40,7 +40,7 @@ public class TrashDestory : MonoBehaviour
     public void TrashDelete(GameObject deleter)
     {
         Destroy(deleter);
-        globalField.spoNumTrash.num -= 1;
+        globalField.spoNumTrash.num -= 1;   //バグ発生
         Debug.Log("fishSpownNum = " + globalField.spoNumTrash.num);
     }
 }

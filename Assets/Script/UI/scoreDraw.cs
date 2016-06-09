@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class wavenumber : MonoBehaviour {
+public class scoreDraw : MonoBehaviour {
     public GlobalField globalfield;
 	// Use this for initialization
 	void Start () {
