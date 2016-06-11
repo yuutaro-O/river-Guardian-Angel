@@ -28,7 +28,8 @@ public class fishBreak : MonoBehaviour {
             {
                 FishDelete(base.gameObject);
                 
-                globalField.wave += 1;
+                globalField.score += 1;
+                globalField.spoNumFish.num -= 1;
             }
 
             //Debug.Log(fish);

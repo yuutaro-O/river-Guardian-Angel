@@ -8,12 +8,14 @@ public class fishMove : MonoBehaviour
     [SerializeField] float defSpd;  //魚のy軸下り移動速度、将来削除予定
     float[] yspeed = new float[2];  //魚のy軸移動速度　０…上り速度　１…下り速度
     
-    float xspd = 0.02f;             //魚のx軸移動速度
+    float spd = 2.0f;             //魚の移動速度
     int healcnt = 0;                //魚回復用のカウント
     int healcost = 0;               //魚が滝から落ちた際に、回復に必要とする時間
     bool myDirecDown;               //魚の進行方向が下りかどうか
     short chanceFishFall = 50;      //魚が滝から落ちない確率、整数型で、100.00%を10000として記述 //テストデータ0.5%
     public GameObject fish;         //自分自身のアドレス
+    GameObject copyBite;            //エサに引き寄せる際に、えさのアドレスを持っておく
+    float tagrad;            //エサをターゲットとした、ラジアン角
     GlobalField globalField;
     // Use this for initialization
     void Start(){
@@ -25,6 +27,7 @@ public class fishMove : MonoBehaviour
 
     // Update is called once per frame
     void Update(){
+        tagrad = 0.0f;
         if (globalField.pouseFlg == false)
         {
             /*
@@ -34,6 +37,19 @@ public class fishMove : MonoBehaviour
             }
             */
             rockjudge();
+            for(int i = 0;i < globalField.spoNumRock.max; i++)
+            {
+                
+                if ((copyBite = GameObject.Find("bite" + i)) == null)
+                {
+                    continue;
+                }
+                
+                copyBite = GameObject.Find("bite" + i);
+                tagrad = Mathf.Atan2(fish.GetComponent<Transform>().position.y - copyBite.GetComponent<Transform>().position.y, fish.GetComponent<Transform>().position.x - copyBite.GetComponent<Transform>().position.x);
+                fish.GetComponent<Transform>().position -= new Vector3(Mathf.Cos(tagrad) * spd, 0,0);
+            }
+
             //移動
             if (myDirecDown == true)
             {
@@ -87,9 +103,5 @@ public class fishMove : MonoBehaviour
             }
             */
         }
-
-
-
-
     }
 }

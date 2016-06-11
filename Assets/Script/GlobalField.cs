@@ -21,6 +21,8 @@ public class GlobalField : MonoBehaviour
     //public int fishSpownMax;              //魚の最大数
     public ObjectSpownNumber spoNumFish;    //魚の設置数と最大数
     public ObjectSpownNumber spoNumBook;    //本の設置数と最大数
+    public ObjectSpownNumber waveFish;      //ウェーブごとに訪れる魚の数
+    public int waveAddFish;   //ウェーブごとに増える魚の数
     public float avoidDist;                 //魚が岩を避けるようになる距離
     public float avoidSpeed;                //魚が岩をよける移動速度
     public float[] destroyPoint;              //オブジェクトが消えるy座標 0.魚 1.ゴミ
@@ -37,6 +39,8 @@ public class GlobalField : MonoBehaviour
     public float trunPoint;                 //魚が進行方向を変える場所
     public Hashtable LAYER = new Hashtable();
     public float trashMoveSpd;              //ゴミが移動する速度
+
+    public int biteBreakCnt;                //えさが消える時間
 
     public float spownRangeDif;
     public float xspownCenter;// = 332.0f;
@@ -80,11 +84,13 @@ public class GlobalField : MonoBehaviour
     public bool invincible;
 
     public int wave; //ウェーブ数
+    public int score; //スコア
 
 
     // Use this for initialization
     void Start()
     {
+        Application.targetFrameRate = 30;
         Maincamera = GameObject.FindGameObjectWithTag("MainCamera");
         sceneManager = GameObject.FindGameObjectWithTag("SceneManager");
         pouseFlg = false;
@@ -99,6 +105,12 @@ public class GlobalField : MonoBehaviour
         destroyPoint[TRASH] = (Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.0f, -0.01f, 0.0f))).y;
 
         spownPoint = -0.002f;
+        life.max = 5;
+        waveAddFish = 7;
+        rockPlaceSecond = (int)(Application.targetFrameRate * 0.8); //およそ0.8秒
+        Debug.Log("rockPlaceSecond = " + rockPlaceSecond);
+        biteBreakCnt = (int)(Application.targetFrameRate * 5.0);
+        Debug.Log("biteBreakCnt = " + biteBreakCnt);
         reset();
         /*
         LAYER["FISH"] = 1.0f;
@@ -150,7 +162,9 @@ public class GlobalField : MonoBehaviour
         spoNumTrash.max = 5;
         spoNumBook.num = 0;
         spoNumBook.max = 1;
-        life.max = 5;
+
+        waveFish.max = 15;  //1ウェーブ目の魚の数
+        
         life.num = life.max;
         grazeDist = 12.5f;
         //avoidDist = 0.03f;
@@ -164,9 +178,10 @@ public class GlobalField : MonoBehaviour
         //fishSpownPoint = new Vector3(xspownCenter, 296.7f, L_FISH);
         //fishSpownPoint = new Vector3(xspownCenter, (Maincamera.GetComponent<Transform>().position.y) - (Maincamera.GetComponent<Camera>().orthographicSize) - 1, L_FISH);
         spownRangeDif = 1.0f;
-        rockPlaceSecond = 24; //およそ0.8秒
+        
         placeSecondCnt = 0;
-        wave = 0;
+        wave = 1;
+        score = 0;
         //trashMoveSpd = 0.005f;
 
         //avoidSpeed = 0.015f;
@@ -182,5 +197,12 @@ public class GlobalField : MonoBehaviour
     public void DebugModeOff()
     {
         invincible = false;
+    }
+
+    public void WaveChange()
+    {
+        wave++;
+        waveFish.max = waveFish.max + (waveAddFish * wave);
+        waveFish.num = waveFish.max;
     }
 }

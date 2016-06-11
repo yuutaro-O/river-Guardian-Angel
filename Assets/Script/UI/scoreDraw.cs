@@ -11,6 +11,6 @@ public class scoreDraw : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        base.gameObject.GetComponent<Text>().text = globalfield.wave.ToString();
+        base.gameObject.GetComponent<Text>().text = globalfield.score.ToString();
 	}
 }
