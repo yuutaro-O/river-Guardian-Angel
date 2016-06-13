@@ -22,19 +22,22 @@ public class TrashCreation : MonoBehaviour
         {
             if (Random.Range(0, 100) >= basePoint)
             {
-                if (globalField.spoNumTrash.num < globalField.spoNumTrash.max)
+                if (globalField.waveFish.num < globalField.waveFish.max)
                 {
-                    copyTrash = (GameObject)Instantiate(trash, globalField.trashSpownPoint[Random.Range(0, globalField.trashSpownPoint.Length - 1)], Quaternion.Euler(new Vector3(0, 0, 0)));
-                    for (i = 0; i < globalField.spoNumTrash.max; i++)
+                    if (globalField.spoNumTrash.num < globalField.spoNumTrash.max)
                     {
-                        if (GameObject.Find("trash" + i) == null)
+                        copyTrash = (GameObject)Instantiate(trash, globalField.trashSpownPoint[Random.Range(0, globalField.trashSpownPoint.Length - 1)], Quaternion.Euler(new Vector3(0, 0, 0)));
+                        for (i = 0; i < globalField.spoNumTrash.max; i++)
                         {
-                            copyTrash.name = "trash" + i;
-                            break;
+                            if (GameObject.Find("trash" + i) == null)
+                            {
+                                copyTrash.name = "trash" + i;
+                                break;
+                            }
                         }
+                        globalField.spoNumTrash.num += 1;
+                        Debug.Log("trashSpownNum = " + globalField.spoNumTrash.num);
                     }
-                    globalField.spoNumTrash.num += 1;
-                    Debug.Log("trashSpownNum = " + globalField.spoNumTrash.num);
                 }
             }
         }

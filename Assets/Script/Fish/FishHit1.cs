@@ -98,7 +98,6 @@ public class FishHit1 : MonoBehaviour {
                     Trash.GetComponent<TrashDestory>().TrashDelete(Trash);
                     uiFishLife.LifeBreaking(globalField.life.num - 1);
                     globalField.life.num -= 1;
-                    globalField.spoNumFish.num -= 1;
                     Debug.Log("life =" + globalField.life.num);
                 }
             }

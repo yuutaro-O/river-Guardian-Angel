@@ -203,6 +203,7 @@ public class GlobalField : MonoBehaviour
     {
         wave++;
         waveFish.max = waveFish.max + (waveAddFish * wave);
-        waveFish.num = waveFish.max;
+        waveFish.num = 0;
+
     }
 }

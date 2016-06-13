@@ -22,38 +22,47 @@ public class fishCreation : MonoBehaviour
         {
             if (UnityEngine.Random.Range(0, 100) >= basePoint)
             {
-                if (globalField.spoNumFish.num < globalField.spoNumFish.max)
+                if (globalField.waveFish.num < globalField.waveFish.max)
                 {
-                    /*
-                    copyFish = (GameObject)Instantiate(fish, new Vector3(Random.Range(globalField.fishSpownPoint.x - globalField.spownRangeDif, globalField.fishSpownPoint.x + globalField.spownRangeDif), globalField.fishSpownPoint.y, globalField.L_FISH), Quaternion.Euler(new Vector3(0, 0, 0)));
-                    globalField.spoNumFish.num += 1;
-                    for (i = 0;i < globalField.spoNumFish.max;i++) {
-                        if (GameObject.Find("fish" + i) == null)
-                        {
-                            copyFish.name = "fish" + i;
-                            break;
-                        }
-                    }
-                    Debug.Log("fishSpownNum = " + globalField.spoNumFish.num);
-                    */
-                    //copyFish = (GameObject)Instantiate(fish, new Vector3(globalField.fishspownPointx[(int)UnityEngine.Random.Range(0,2)], globalField.fishSpownPoint.y, globalField.L_FISH), Quaternion.Euler(new Vector3(0, 0, 0)));
-                    //copyFish = (GameObject)Instantiate(fish, new Vector3(globalField.fishspownPointx[(int)UnityEngine.Random.Range(0, 2)], globalField.fishSpownPoint.y, globalField.L_FISH), Quaternion.Euler(new Vector3(0, 0, 0)));
-                    copyFish = (GameObject)Instantiate(fish, globalField.fishSpownPoint[(int)(Random.Range(0, globalField.fishSpownPoint.Length - 1))], Quaternion.Euler(new Vector3(0, 0, 0)));
-                    copyFish.GetComponent<Transform>().SetParent(GameObject.Find("MainGame").GetComponent<Transform>());
-                    //copyFish.GetComponent<Transform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                    globalField.spoNumFish.num += 1;
-                    for (i = 0; i < globalField.spoNumFish.max; i++)
+                    if (globalField.spoNumFish.num < globalField.spoNumFish.max)
                     {
-                        if (GameObject.Find("fish" + i) == null)
-                        {
-                            copyFish.name = "fish" + i;
-                            break;
+                        /*
+                        copyFish = (GameObject)Instantiate(fish, new Vector3(Random.Range(globalField.fishSpownPoint.x - globalField.spownRangeDif, globalField.fishSpownPoint.x + globalField.spownRangeDif), globalField.fishSpownPoint.y, globalField.L_FISH), Quaternion.Euler(new Vector3(0, 0, 0)));
+                        globalField.spoNumFish.num += 1;
+                        for (i = 0;i < globalField.spoNumFish.max;i++) {
+                            if (GameObject.Find("fish" + i) == null)
+                            {
+                                copyFish.name = "fish" + i;
+                                break;
+                            }
                         }
+                        Debug.Log("fishSpownNum = " + globalField.spoNumFish.num);
+                        */
+                        //copyFish = (GameObject)Instantiate(fish, new Vector3(globalField.fishspownPointx[(int)UnityEngine.Random.Range(0,2)], globalField.fishSpownPoint.y, globalField.L_FISH), Quaternion.Euler(new Vector3(0, 0, 0)));
+                        //copyFish = (GameObject)Instantiate(fish, new Vector3(globalField.fishspownPointx[(int)UnityEngine.Random.Range(0, 2)], globalField.fishSpownPoint.y, globalField.L_FISH), Quaternion.Euler(new Vector3(0, 0, 0)));
+                        copyFish = (GameObject)Instantiate(fish, globalField.fishSpownPoint[(int)(Random.Range(0, globalField.fishSpownPoint.Length - 1))], Quaternion.Euler(new Vector3(0, 0, 0)));
+                        copyFish.GetComponent<Transform>().SetParent(GameObject.Find("MainGame").GetComponent<Transform>());
+                        //copyFish.GetComponent<Transform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
+                        globalField.spoNumFish.num += 1;
+                        globalField.waveFish.num += 1;
+                        for (i = 0; i < globalField.spoNumFish.max; i++)
+                        {
+                            if (GameObject.Find("fish" + i) == null)
+                            {
+                                copyFish.name = "fish" + i;
+                                break;
+                            }
+                        }
+                        Debug.Log("fishSpownNum = " + globalField.spoNumFish.num);
                     }
-                    Debug.Log("fishSpownNum = " + globalField.spoNumFish.num);
                 }
             }
 
         }
+    }
+
+    public void spownFish()
+    {
+
     }
 }
