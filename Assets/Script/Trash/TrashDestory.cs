@@ -41,6 +41,6 @@ public class TrashDestory : MonoBehaviour
     {
         Destroy(deleter);
         globalField.spoNumTrash.num -= 1;   //バグ発生
-        Debug.Log("fishSpownNum = " + globalField.spoNumTrash.num);
+        Debug.Log("TrashSpownNum = " + globalField.spoNumTrash.num);
     }
 }
