@@ -86,11 +86,12 @@ public class GlobalField : MonoBehaviour
     public int wave; //ウェーブ数
     public int score; //スコア
 
+    public float framerate;
 
     // Use this for initialization
     void Start()
     {
-        Application.targetFrameRate = 30;
+        framerate = (Application.targetFrameRate = 30);
         Maincamera = GameObject.FindGameObjectWithTag("MainCamera");
         sceneManager = GameObject.FindGameObjectWithTag("SceneManager");
         pouseFlg = false;
