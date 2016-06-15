@@ -61,19 +61,33 @@ public class WaveManager : MonoBehaviour {
         if (cnt > playcnt)
         {
             UI_changeGene.GetComponent<Transform>().rotation = (Quaternion.Euler(0, 0, 0));
+            UI_changeGene.GetComponent<ChanWave_gene>().Sub_WaveDraw();
             ret = true;
         }
         else if (cnt == 0)
         {
             UI_changeGene.GetComponent<Transform>().rotation = (Quaternion.Euler(0, 0, 0));
         }
+        else if (cnt == (int)(globalField.framerate * 2.0))
+        {
+            UI_changeGene.GetComponent<ChanWave_gene>().Ad_WaveDraw();
+            UI_changeGene.SetActive(false);
+
+        }
         else if(cnt < globalField.framerate * 2.0)
         {
             UI_changeGene.GetComponent<Transform>().rotation = (Quaternion.Euler(90 * ((cnt / (float)(globalField.framerate * 2.0))), 0, 0));
+            
         }
-        else if (cnt >globalField.framerate * 3.0)
+        
+        else if (cnt == (int)(globalField.framerate * 3.0))
         {
-            UI_changeGene.GetComponent<Transform>().rotation = (Quaternion.Euler(((90 * ((cnt - ((int)(globalField.framerate * 3.0)) / ((float)(globalField.framerate * 2.0)))))) - 90, 0, 0));
+            UI_changeGene.SetActive(true);
+
+        }
+        else if (cnt >globalField.framerate * 3.0) //回転をしたから上にしたい
+        {
+            UI_changeGene.GetComponent<Transform>().rotation = Quaternion.Euler(90 * ((cnt - (int)(globalField.framerate * 3.0)) /  (float)(globalField.framerate * 2.0 )) - 90, 0, 0); 
         }
         
         else
