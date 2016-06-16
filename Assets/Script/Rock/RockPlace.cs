@@ -17,81 +17,42 @@ public class RockPlace : MonoBehaviour
     Vector3 placePoint;
 
     public int i;
+
+    const string STR_ROCK = "rock";
     // Use this for initialization
     void Start()
     {
         i = 0;
-        pushFlg = false;
         globalField = GameObject.Find("GlobalField").GetComponent<GlobalField>();
-        globalField.placeSecondCnt = 0;
-        isTouchUIActive = false;
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public GameObject RockPlacing(int index,Vector3 tPlacePoint)
     {
-        if (globalField.pouseFlg == false)
+        if (index >= 0  && index < globalField.spoNumRock.max)
         {
-            if (Input.GetMouseButton(0))
+            if (GameObject.Find(STR_ROCK + index) != null)
             {
-                if (pushFlg == false)
+                for (int l = 0; l < globalField.spoNumRock.max; l++)
                 {
-                    if (globalField.placeSecondCnt == 0)
+                    if (GameObject.Find(STR_ROCK + l) == null)
                     {
-
-                        mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        placePoint = new Vector3(mousePoint.x, mousePoint.y, 1);
-                        UIAdress = (GameObject)Instantiate(tapPoint, placePoint, Quaternion.Euler(0, 0, 0));
-                        UIAdress.GetComponent<Transform>().SetParent(GameObject.Find("Canvas").GetComponent<Transform>());
-                        isTouchUIActive = true;
-
-                    }
-                    if (globalField.placeSecondCnt > globalField.rockPlaceSecond)
-                    {
-
-
-                        if (i > 3)
-                        {
-                            i = 0;
-                        }
-                        if (globalField.spoNumRock.num >= globalField.spoNumRock.max)
-                        {
-                            Destroy(GameObject.Find("rock" + i));
-                            globalField.spoNumRock.num -= 1;
-                        }
-                        Destroy(UIAdress);
-                        isTouchUIActive = false;
-
-                        copyRock = (GameObject)Instantiate(rock, placePoint, Quaternion.Euler(0, 0, 0));
-                        copyRock.name = "rock" + i;
-                        i += 1;
-                        //globalField = GameObject.Find("GlobalField");
-                        //globalField.GetComponent<GlobalField>().spoNumRock.num += 1;
-
-                        globalField.spoNumRock.num += 1;
-                        pushFlg = true;
-                        Debug.Log("rockplaceNum = " + globalField.spoNumRock.num);
-                        globalField.placeSecondCnt = 0;
-                    }
-                    else
-                    {
-                        globalField.placeSecondCnt += 1;
-
+                        RockPlacing(i, tPlacePoint);
+                        break;
                     }
                 }
+                return null;
+            }
+            copyRock = (GameObject)Instantiate(rock, tPlacePoint, Quaternion.Euler(0, 0, 0));
+            copyRock.name = STR_ROCK + index;
 
-            }
-            else
-            {
-                pushFlg = false;
-                if (isTouchUIActive == true)
-                {
-                    globalField.placeSecondCnt = 0;
-                    Destroy(UIAdress);
-                    isTouchUIActive = false;
-                }
-            }
+            //globalField = GameObject.Find("GlobalField");
+            //globalField.GetComponent<GlobalField>().spoNumRock.num += 1;
+
+            globalField.spoNumRock.num += 1;
+            Debug.Log("rockplaceNum = " + globalField.spoNumRock.num);
+            
         }
-
+        return copyRock;
     }
+
 }

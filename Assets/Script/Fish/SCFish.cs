@@ -67,8 +67,8 @@ public class SCFish : MonoBehaviour
             myDirecDown = true;
         }
         */
-        rockjudge();
-        for (int i = 0; i < globalField.spoNumRock.max; i++)
+        //rockjudge();
+        for (int i = 0; i < globalField.spoNumBite.max; i++)
         {
 
             if ((copyBite = GameObject.Find("bite" + i)) == null)
@@ -135,25 +135,24 @@ public class SCFish : MonoBehaviour
             TrashHit();
         }
     }
-    void RockHit()
+    void RockHit()  //非常に動作が重い関数
     {
         //Debug.Log(globalField.rockPlaceNum);
         for (i = 0; i < globalField.spoNumRock.num; i++)
         {
 
-            if ((Rock = GameObject.Find("rock" + i)) == null)
+            if (globalField.Rock[i] == null)
             {
                 continue;
             }
-            rockCenterCoord = Rock.GetComponent<Transform>().position;
-            rockScale = (Rock.GetComponent<Transform>().lossyScale) / globalField.SCALEDIFFRENCIAL;
+            rockCenterCoord = globalField.Rock[i].transform.position;
+            rockScale = (globalField.Rock[i].transform.lossyScale) / globalField.SCALEDIFFRENCIAL;
             //rockScale = Rock.GetComponent<BoxCollider>().size;
 
 
 
             //Debug.Log(rockCenterCoord);
-            Debug.Log("RockScale = " + rockScale);
-
+            /*
             if (fishCenterCoord.x - ((fishScale.x) / 2) <= rockCenterCoord.x + ((rockScale.x) / 2) &&
                 fishCenterCoord.x + ((fishScale.x) / 2) >= rockCenterCoord.x - ((rockScale.x) / 2) &&
                 fishCenterCoord.y - ((fishScale.y) / 2) <= rockCenterCoord.y + ((rockScale.y) / 2) &&
@@ -174,7 +173,7 @@ public class SCFish : MonoBehaviour
                     Fish.GetComponent<Transform>().position += new Vector3(-globalField.avoidSpeed, 0.0f, 0.0f);
                 }
             }
-
+            */
         }
     }
     void TrashHit()
@@ -238,7 +237,7 @@ public class SCFish : MonoBehaviour
         objPosition[1] = (base.gameObject).transform.position;
         objScale[1] = (base.gameObject).transform.localScale;
 
-        for (i = 0; i < 4; i++)
+        for (i = 0; i < globalField.spoNumRock.max; i++)
         {
             obj[0] = GameObject.Find("rock" + i);
             //objPosition[0] = .transform.position;

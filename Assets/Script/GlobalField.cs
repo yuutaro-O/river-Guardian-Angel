@@ -14,6 +14,7 @@ public class GlobalField : MonoBehaviour
     //public int rockPlaceNum;              //岩を置いている数
     //public int rockPlaceMax;              //岩を置ける最大数
     public ObjectSpownNumber spoNumRock;    //岩
+    public ObjectSpownNumber spoNumBite;
     //public int trashPlaceNum;             //ゴミを置いている数
     //public int trashPlaceMax;             //ゴミの最大数
     public ObjectSpownNumber spoNumTrash;
@@ -62,31 +63,35 @@ public class GlobalField : MonoBehaviour
     /*スプライトを持つgameObjectに必要な、z座標の情報
      実質、レイヤーの役割を果たしている*/
     
-   public float L_FISH = 1.0f;
-   public float L_TRASH = 1.1f;
-   public float L_ROCK = 2.0f;
-   public float L_UIOUTSIDE = 3.0f;
-   public float L_UIINSIDE = 4.0f;
-   public float L_UILIFE = 5.0f;
-   public float L_LINE = 6.0f;
-   /*
+   //public float L_FISH = 1.0f;
+   //public float L_TRASH = 1.1f;
+   //public float L_ROCK = 2.0f;
+   //public float L_UIOUTSIDE = 3.0f;
+   //public float L_UIINSIDE = 4.0f;
+   //public float L_UILIFE = 5.0f;
+   //public float L_LINE = 6.0f;
+   
     public enum LEYER
     {
         FISH = 1,
         TRASH,
         ROCK,
+        BITE,
         UIOUTSIDE,
         UIINSIDE,
         UILIFE,
-        LINE
+        LINE,
+        UITEXT
     }
-    */
+   
     public bool invincible;
 
     public int wave; //ウェーブ数
     public int score; //スコア
 
     public float framerate;
+
+    public GameObject[] Rock;
 
     // Use this for initialization
     void Start()
@@ -129,8 +134,8 @@ public class GlobalField : MonoBehaviour
             for (int i = 0; i < spownPointx.Length; i++)
             {
                 //fishSpownPoint[i] = Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(spownPointx[i], spownPoint, L_FISH));
-                tempArray.Add(Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(spownPointx[i], spownPoint, L_FISH)));
-                tempArray2.Add(Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(spownPointx[i], 1.01f, L_TRASH)));
+                tempArray.Add(Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(spownPointx[i], spownPoint,(float)LEYER.FISH)));
+                tempArray2.Add(Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(spownPointx[i], 1.01f, (float)LEYER.TRASH)));
                 Debug.Log("fishSpownPoint[" + i + "] = " + tempArray[i]);
             }
             //fishSpownPoint = new Vector3(tempArray.ToArray());
@@ -141,6 +146,9 @@ public class GlobalField : MonoBehaviour
 
         }
         Debug.Log("spownPoint = " + spownPoint);
+
+        
+
     }
 
     // Update is called once per frame
@@ -156,16 +164,19 @@ public class GlobalField : MonoBehaviour
     public void reset()
     {
         spoNumRock.num = 0;
-        spoNumRock.max = 4;
+        spoNumRock.max = 3;
         spoNumFish.num = 0;
         spoNumFish.max = 5;
         spoNumTrash.num = 0;
         spoNumTrash.max = 5;
         spoNumBook.num = 0;
         spoNumBook.max = 1;
+        spoNumBite.num = 0;
+        spoNumBite.max = 3;
 
-        waveFish.max = 15;  //1ウェーブ目の魚の数
-        
+        //waveFish.max = 15;  //1ウェーブ目の魚の数
+        waveFish.max = 5;  //1ウェーブ目の魚の数
+
         life.num = life.max;
         grazeDist = 12.5f;
         //avoidDist = 0.03f;
@@ -188,7 +199,8 @@ public class GlobalField : MonoBehaviour
         //avoidSpeed = 0.015f;
         avoidSpeed = 12.0f;
         invincible = false;
-
+        //岩配列の初期化
+        Rock = new GameObject[spoNumRock.max];
     }
 
     public void DebugModeOn()

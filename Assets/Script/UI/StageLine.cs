@@ -27,8 +27,8 @@ public class StageLine : MonoBehaviour {
             line[i].GetComponent<Transform>().SetParent(GameObject.Find("UILine").GetComponent<Transform>());
             //Points[0] = Camera.main.ScreenToWorldPoint(new Vector3((float)(i / 10),0.0f,globalField.L_LINE));
             //Points[1] = Camera.main.ScreenToWorldPoint(new Vector3((float)(i / 10), 1.0f, globalField.L_LINE));
-            Points[0] = Camera.main.ViewportToWorldPoint(new Vector3((float)(i / 10), 0.0f, globalField.L_LINE));
-            Points[1] = Camera.main.ViewportToWorldPoint(new Vector3((float)(i / 10), 1.0f, globalField.L_LINE));
+            Points[0] = Camera.main.ViewportToWorldPoint(new Vector3((float)(i / 10), 0.0f, (float)GlobalField.LEYER.LINE));
+            Points[1] = Camera.main.ViewportToWorldPoint(new Vector3((float)(i / 10), 1.0f, (float)GlobalField.LEYER.LINE));
             line[i].GetComponent<LineRenderer>().SetVertexCount(2);
             line[i].GetComponent<LineRenderer>().SetWidth(0.5f, 0.5f);
             line[i].GetComponent<LineRenderer>().SetPositions(Points);

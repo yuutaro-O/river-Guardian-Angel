@@ -40,7 +40,7 @@ public class UIFishLife : MonoBehaviour {
         //copyLife = new GameObject[globalField.life.num];
         for (int i = 0; i < globalField.life.num;i++)
         {
-            copyLife[i] = (GameObject)Instantiate(Life, Camera.main.ViewportToWorldPoint(new Vector3((float)(0.985 - (i * 0.035)), 0.05f, globalField.L_UILIFE)), Quaternion.Euler(0, 0, 0));
+            copyLife[i] = (GameObject)Instantiate(Life, Camera.main.ViewportToWorldPoint(new Vector3((float)(0.985 - (i * 0.035)), 0.05f, (float)GlobalField.LEYER.UILIFE)), Quaternion.Euler(0, 0, 0));
            Debug.Log("copyLifePosition" + copyLife[i].GetComponent<Transform>().position);
         }
     }

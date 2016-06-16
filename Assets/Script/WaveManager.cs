@@ -9,9 +9,11 @@ public class WaveManager : MonoBehaviour {
     public bool pouseStats;             //演出を再生中かどうか？
     public GameObject UI_changewave;    //ウェーブチェンジのタイミングで表示されるテキスト
     public GameObject UI_changeGene;
+    public GameObject rockPlace;
 	// Use this for initialization
 	void Start () {
         globalField = GameObject.FindGameObjectWithTag("GlobalField").GetComponent<GlobalField>();
+        rockPlace = GameObject.FindGameObjectWithTag("RockPlacer");
         //UI_changewave = GameObject.FindGameObjectWithTag("UI_changeWave");
         //UI_changeGene = GameObject.Find("UI_ChanWaveGeneration");
         Debug.Log("UI_ChangeWave = " + UI_changewave);
@@ -50,6 +52,7 @@ public class WaveManager : MonoBehaviour {
                 cnt = 0;
                 UI_changewave.SetActive(false);
                 globalField.WaveChange();
+                WaveRockPlace();
             }
             
         }
@@ -97,5 +100,24 @@ public class WaveManager : MonoBehaviour {
         cnt++;
         return ret;
     }
+    public void WaveRockPlace()
+    {
+        Vector3 PlacePoint;
+        AllRockDelete();
+        for(int i = 0; i < globalField.spoNumRock.max; i++)
+        {
+            PlacePoint = Camera.main.ViewportToWorldPoint(new Vector3( Random.Range(0.0f, 0.9f), Random.Range(0.0f, 0.9f), (float)GlobalField.LEYER.ROCK));
+            globalField.Rock[i] = rockPlace.GetComponent<RockPlace>().RockPlacing(i,PlacePoint);
+        }
+    }
 
+    public void AllRockDelete()
+    {
+        GameObject[] Rock = new GameObject[globalField.spoNumRock.num];
+        Rock = GameObject.FindGameObjectsWithTag("Rock");
+        for (int i = 0; i < globalField.spoNumRock.num; i++)
+        {
+            Rock[i].GetComponent<SC_Rock>().deleteRock();
+        }
+    }
 }
