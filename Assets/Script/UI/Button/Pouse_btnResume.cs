@@ -2,12 +2,10 @@
 using System.Collections;
 
 public class Pouse_btnResume : MonoBehaviour {
-
-    GlobalField globalField;
     SceneManager sceneManager;
 	// Use this for initialization
 	void Start () {
-        globalField = GameObject.FindGameObjectWithTag("GlobalField").GetComponent<GlobalField>();
+
         sceneManager = GameObject.Find("SceneManager").GetComponent<SceneManager>();
 	}
 	
@@ -18,6 +16,6 @@ public class Pouse_btnResume : MonoBehaviour {
 	}
     public void ButtonPush()
     {
-        globalField.pouseFlg = sceneManager.changePouse(false);
+        GlobalField.globalField.pouseFlg = sceneManager.changePouse(false);
     }
 }

@@ -19,7 +19,6 @@ public class SceneManager : MonoBehaviour
 
     byte nowScene;
 
-    public GlobalField globalFleld;
     GameObject spownPoint;
 
     // Use this for initialization
@@ -30,7 +29,6 @@ public class SceneManager : MonoBehaviour
         gameMode[MAINGAME] = GameObject.Find("MainGame");
         gameMode[RESULT] = GameObject.Find("Result");
         */
-        globalFleld = GameObject.FindGameObjectWithTag("GlobalField").GetComponent<GlobalField>();
         spownPoint = GameObject.Find("SpownPoint");
         mainGameTags.Add("Fish");
         mainGameTags.Add("Bite");
@@ -52,7 +50,7 @@ public class SceneManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            globalFleld.pouseFlg = changePouse(!(pouseMenu.activeInHierarchy));
+            GlobalField.globalField.pouseFlg = changePouse(!(pouseMenu.activeInHierarchy));
 
         }
     }

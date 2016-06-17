@@ -92,10 +92,15 @@ public class GlobalField : MonoBehaviour
     public float framerate;
 
     public GameObject[] Rock;
+    public GameObject[] Bite;
+    public GameObject[] Trash;
+
+    static public GlobalField globalField;
 
     // Use this for initialization
     void Start()
     {
+        globalField = GameObject.FindGameObjectWithTag("GlobalField").GetComponent<GlobalField>();
         framerate = (Application.targetFrameRate = 30);
         Maincamera = GameObject.FindGameObjectWithTag("MainCamera");
         sceneManager = GameObject.FindGameObjectWithTag("SceneManager");
@@ -201,6 +206,8 @@ public class GlobalField : MonoBehaviour
         invincible = false;
         //岩配列の初期化
         Rock = new GameObject[spoNumRock.max];
+        Bite = new GameObject[spoNumBite.max];
+        Trash = new GameObject[spoNumTrash.max];
     }
 
     public void DebugModeOn()

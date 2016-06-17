@@ -6,5 +6,6 @@ public class SC_Rock : MonoBehaviour {
 	public void deleteRock()
     {
         Destroy(base.gameObject);
+        GlobalField.globalField.spoNumRock.num -= 1;
     }
 }

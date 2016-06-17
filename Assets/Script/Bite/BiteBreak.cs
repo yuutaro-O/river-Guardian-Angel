@@ -3,7 +3,6 @@ using System.Collections;
 
 public class BiteBreak : MonoBehaviour {
     int cnt;
-    public GlobalField globalField;
 	// Use this for initialization
 	void Start () {
 	    
@@ -12,19 +11,17 @@ public class BiteBreak : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         cnt++;
-        if (globalField == null)
-        {
-            globalField = GameObject.FindGameObjectWithTag("GlobalField").GetComponent<GlobalField>();
-        }
-	    if(cnt >= globalField.biteBreakCnt)
+
+	    if(cnt >= GlobalField.globalField.biteBreakCnt)
         {
             cnt = 0;
-            BiteDelete(base.gameObject);
+            BiteDelete();
         }
 	}
 
-    public void BiteDelete(GameObject deleter)
+    public void BiteDelete()
     {
-        Destroy(deleter);
+        Destroy(base.gameObject);
+        GlobalField.globalField.spoNumBite.num -= 1;
     }
 }

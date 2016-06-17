@@ -13,7 +13,6 @@ public class BitePlace : MonoBehaviour
     GameObject UIAdress;
     bool isTouchUIActive = false;
     GameObject copyRock;
-    GlobalField globalField;
     Vector3 placePoint;
 
     public int i;
@@ -22,28 +21,27 @@ public class BitePlace : MonoBehaviour
     {
         i = 0;
         pushFlg = false;
-        globalField = GameObject.Find("GlobalField").GetComponent<GlobalField>();
-        globalField.placeSecondCnt = 0;
+        GlobalField.globalField.placeSecondCnt = 0;
         isTouchUIActive = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (globalField.pouseFlg == false)
+        if (GlobalField.globalField.pouseFlg == false)
         {
             //if (Input.GetButtonDown("Place"))
             if (Input.GetMouseButton(0) == true)
             {
                 if (pushFlg == false)
                 {
-                    if (globalField.placeSecondCnt == 0)
+                    if (GlobalField.globalField.placeSecondCnt == 0)
                     {
 
                         UITapPlace();
 
                     }
-                    if (globalField.placeSecondCnt > globalField.rockPlaceSecond)
+                    if (GlobalField.globalField.placeSecondCnt > GlobalField.globalField.rockPlaceSecond)
                     {
 
                         BitePlacing();
@@ -51,7 +49,7 @@ public class BitePlace : MonoBehaviour
                     }
                     else
                     {
-                        globalField.placeSecondCnt += 1;
+                        GlobalField.globalField.placeSecondCnt += 1;
 
                     }
                 }
@@ -62,7 +60,7 @@ public class BitePlace : MonoBehaviour
                 pushFlg = false;
                 if (isTouchUIActive == true)
                 {
-                    globalField.placeSecondCnt = 0;
+                    GlobalField.globalField.placeSecondCnt = 0;
                     Destroy(UIAdress);
                     isTouchUIActive = false;
                 }
@@ -83,23 +81,23 @@ public class BitePlace : MonoBehaviour
         {
             i = 0;
         }
-        if (globalField.spoNumBite.num >= globalField.spoNumBite.max)
+        if (GlobalField.globalField.spoNumBite.num >= GlobalField.globalField.spoNumBite.max)
         {
-            Destroy(GameObject.Find("bite" + i));
-            globalField.spoNumBite.num -= 1;
+            GlobalField.globalField.Bite[i].GetComponent<BiteBreak>().BiteDelete();
+            
         }
         Destroy(UIAdress);
         isTouchUIActive = false;
 
-        copyRock = (GameObject)Instantiate(bite, placePoint, Quaternion.Euler(0, 0, 0));
-        copyRock.name = "bite" + i;
+        GlobalField.globalField.Bite[i] = (GameObject)Instantiate(bite, placePoint, Quaternion.Euler(0, 0, 0));
+        GlobalField.globalField.Bite[i].name = "bite" + i;
         i += 1;
-        //globalField = GameObject.Find("GlobalField");
+        //GlobalField.globalField = GameObject.Find("GlobalField");
         //globalField.GetComponent<GlobalField>().spoNumRock.num += 1;
 
-        globalField.spoNumBite.num += 1;
+        GlobalField.globalField.spoNumBite.num += 1;
         pushFlg = true;
-        Debug.Log("biteplaceNum = " + globalField.spoNumBite.num);
-        globalField.placeSecondCnt = 0;
+        Debug.Log("biteplaceNum = " + GlobalField.globalField.spoNumBite.num);
+        GlobalField.globalField.placeSecondCnt = 0;
     }
 }

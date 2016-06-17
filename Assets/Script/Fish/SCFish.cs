@@ -3,7 +3,6 @@ using System.Collections;
 
 public class SCFish : MonoBehaviour
 {
-    GlobalField globalField;
     //from FishHit
     GameObject Fish;
     //魚の座標
@@ -40,7 +39,6 @@ public class SCFish : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        globalField = GameObject.Find("GlobalField").GetComponent<GlobalField>();
         uiFishLife = GameObject.Find("SpownPoint").GetComponent<UIFishLife>();
 
         yspeed[0] = defSpd; //上るときの速度
@@ -51,7 +49,7 @@ public class SCFish : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (globalField.pouseFlg == false)
+        if (GlobalField.globalField.pouseFlg == false)
         {
             HitJudge();
             Move();
@@ -63,20 +61,20 @@ public class SCFish : MonoBehaviour
         tagrad = 0.0f;
         /*
         //画面上部に行った時、方向転換
-        if (fish.transform.position.y >= globalField.trunPoint){
+        if (fish.transform.position.y >= GlobalField.globalField.trunPoint){
             myDirecDown = true;
         }
         */
         //rockjudge();
-        for (int i = 0; i < globalField.spoNumBite.max; i++)
+        for (int i = 0; i < GlobalField.globalField.spoNumBite.max; i++)
         {
 
-            if ((copyBite = GameObject.Find("bite" + i)) == null)
+            if ((copyBite = GlobalField.globalField.Bite[i]) == null)
             {
                 continue;
             }
 
-            copyBite = GameObject.Find("bite" + i);
+            //copyBite = GameObject.Find("bite" + i);
             tagrad = Mathf.Atan2(fish.GetComponent<Transform>().position.y - copyBite.GetComponent<Transform>().position.y, fish.GetComponent<Transform>().position.x - copyBite.GetComponent<Transform>().position.x);
             fish.GetComponent<Transform>().position -= new Vector3(Mathf.Cos(tagrad) * spd, 0, 0);
         }
@@ -91,7 +89,7 @@ public class SCFish : MonoBehaviour
             fish.transform.position += new Vector3(0, yspeed[0], 0);
         }
         //まれに魚が滝を登れずに、少し落ちる
-        if (GetComponent<Transform>().position.y > globalField.Maincamera.GetComponent<Transform>().position.y)
+        if (GetComponent<Transform>().position.y > GlobalField.globalField.Maincamera.GetComponent<Transform>().position.y)
         {
             if (Random.Range(0, 10000) < chanceFishFall)
             {
@@ -111,11 +109,11 @@ public class SCFish : MonoBehaviour
     }
     void BreakJudge()
     {
-        if (base.gameObject.GetComponent<Transform>().position.y >= globalField.destroyPoint[globalField.FISH])
+        if (base.gameObject.GetComponent<Transform>().position.y >= GlobalField.globalField.destroyPoint[GlobalField.globalField.FISH])
         {
-            FishDelete(base.gameObject);
+            FishDelete();
 
-            globalField.score += 1;
+            GlobalField.globalField.score += 1;
         }
     }
 
@@ -124,29 +122,29 @@ public class SCFish : MonoBehaviour
         Fish = base.gameObject;
         fishCenterCoord = Fish.GetComponent<Transform>().position;
         //fishScale = Fish.GetComponent<BoxCollider>().size;
-        fishScale = (Fish.GetComponent<Transform>().lossyScale) / globalField.SCALEDIFFRENCIAL;
+        fishScale = (Fish.GetComponent<Transform>().lossyScale) / GlobalField.globalField.SCALEDIFFRENCIAL;
 
         //Debug.Log(fishCenterCoord);
         Debug.Log("fishScale = " + fishScale);
 
         RockHit();
-        if (globalField.invincible == false)
+        if (GlobalField.globalField.invincible == false)
         {
             TrashHit();
         }
     }
     void RockHit()  //非常に動作が重い関数
     {
-        //Debug.Log(globalField.rockPlaceNum);
-        for (i = 0; i < globalField.spoNumRock.num; i++)
+        //Debug.Log(GlobalField.globalField.rockPlaceNum);
+        for (i = 0; i < GlobalField.globalField.spoNumRock.num; i++)
         {
 
-            if (globalField.Rock[i] == null)
+            if (GlobalField.globalField.Rock[i] == null)
             {
                 continue;
             }
-            rockCenterCoord = globalField.Rock[i].transform.position;
-            rockScale = (globalField.Rock[i].transform.lossyScale) / globalField.SCALEDIFFRENCIAL;
+            rockCenterCoord = GlobalField.globalField.Rock[i].transform.position;
+            rockScale = (GlobalField.globalField.Rock[i].transform.lossyScale) / GlobalField.globalField.SCALEDIFFRENCIAL;
             //rockScale = Rock.GetComponent<BoxCollider>().size;
 
 
@@ -156,7 +154,7 @@ public class SCFish : MonoBehaviour
             if (fishCenterCoord.x - ((fishScale.x) / 2) <= rockCenterCoord.x + ((rockScale.x) / 2) &&
                 fishCenterCoord.x + ((fishScale.x) / 2) >= rockCenterCoord.x - ((rockScale.x) / 2) &&
                 fishCenterCoord.y - ((fishScale.y) / 2) <= rockCenterCoord.y + ((rockScale.y) / 2) &&
-                fishCenterCoord.y + ((fishScale.y) / 2) >= rockCenterCoord.y - ((rockScale.y) / 2) + globalField.avoidDist)
+                fishCenterCoord.y + ((fishScale.y) / 2) >= rockCenterCoord.y - ((rockScale.y) / 2) + GlobalField.globalField.avoidDist)
             ////if (fishCenterCoord.x <= rockCenterCoord.x + (Rock.transform.lossyScale.x) &&
             ////    fishCenterCoord.x + (Fish.transform.lossyScale.x) >= rockCenterCoord.x &&
             ////    fishCenterCoord.y - (Fish.transform.lossyScale.y) <= rockCenterCoord.y &&
@@ -166,11 +164,11 @@ public class SCFish : MonoBehaviour
                 Debug.Log("Hit " + Fish + " to " + Rock);
                 if (fishCenterCoord.x > rockCenterCoord.x)
                 {
-                    Fish.GetComponent<Transform>().position += new Vector3(globalField.avoidSpeed, 0.0f, 0.0f);
+                    Fish.GetComponent<Transform>().position += new Vector3(GlobalField.globalField.avoidSpeed, 0.0f, 0.0f);
                 }
                 else
                 {
-                    Fish.GetComponent<Transform>().position += new Vector3(-globalField.avoidSpeed, 0.0f, 0.0f);
+                    Fish.GetComponent<Transform>().position += new Vector3(-GlobalField.globalField.avoidSpeed, 0.0f, 0.0f);
                 }
             }
             */
@@ -179,32 +177,32 @@ public class SCFish : MonoBehaviour
     void TrashHit()
     {
 
-        for (i = 0; i < globalField.spoNumTrash.max; i++)
+        for (i = 0; i < GlobalField.globalField.spoNumTrash.max; i++)
         {
-            if ((Trash = GameObject.Find("trash" + i)) == null)
+            if ((GlobalField.globalField.Trash[i]) == null)
             {
                 continue;
             }
-            trashCenterCoord = Trash.GetComponent<Transform>().position;
+            trashCenterCoord = GlobalField.globalField.Trash[i].GetComponent<Transform>().position;
             //trashScale = Trash.GetComponent<BoxCollider>().size;
-            trashScale = Trash.GetComponent<Transform>().lossyScale / globalField.SCALEDIFFRENCIAL;
-            if (fishCenterCoord.x - ((fishScale.x) / 2) <= trashCenterCoord.x + ((trashScale.x) / 2) - globalField.grazeDist &&
-                fishCenterCoord.x + ((fishScale.x) / 2) >= trashCenterCoord.x - ((trashScale.x) / 2) + globalField.grazeDist &&
-                fishCenterCoord.y - ((fishScale.y) / 2) <= trashCenterCoord.y + ((trashScale.y) / 2) - globalField.grazeDist &&
-                fishCenterCoord.y + ((fishScale.y) / 2) >= trashCenterCoord.y - ((trashScale.y) / 2) + globalField.grazeDist)
+            trashScale = GlobalField.globalField.Trash[i].GetComponent<Transform>().lossyScale / GlobalField.globalField.SCALEDIFFRENCIAL;
+            if (fishCenterCoord.x - ((fishScale.x) / 2) <= trashCenterCoord.x + ((trashScale.x) / 2) - GlobalField.globalField.grazeDist &&
+                fishCenterCoord.x + ((fishScale.x) / 2) >= trashCenterCoord.x - ((trashScale.x) / 2) + GlobalField.globalField.grazeDist &&
+                fishCenterCoord.y - ((fishScale.y) / 2) <= trashCenterCoord.y + ((trashScale.y) / 2) - GlobalField.globalField.grazeDist &&
+                fishCenterCoord.y + ((fishScale.y) / 2) >= trashCenterCoord.y - ((trashScale.y) / 2) + GlobalField.globalField.grazeDist)
             {
                 //Fish.GetComponent<fishBreak>().FishDelete(base.gameObject);
-                FishDelete(base.gameObject);
-                Trash.GetComponent<SC_Trash>().TrashDelete(Trash);
-                uiFishLife.LifeBreaking(globalField.life.num - 1);
-                globalField.life.num -= 1;
-                Debug.Log("life =" + globalField.life.num);
+                FishDelete();
+                GlobalField.globalField.Trash[i].GetComponent<SC_Trash>().TrashDelete();
+                uiFishLife.LifeBreaking(GlobalField.globalField.life.num - 1);
+                GlobalField.globalField.life.num -= 1;
+                Debug.Log("life =" + GlobalField.globalField.life.num);
             }
         }
     }
     void BookHit()
     {
-        for (i = 0; i < globalField.spoNumBook.max; i++)
+        for (i = 0; i < GlobalField.globalField.spoNumBook.max; i++)
         {
             if ((Book = GameObject.Find("book" + i)) == null)
             {
@@ -220,12 +218,14 @@ public class SCFish : MonoBehaviour
                 Book.GetComponent<BookDestory>().BookDelete(Book);
         }
     }
-    public void FishDelete(GameObject deleter)
+    public void FishDelete()
     {
-        Destroy(deleter);
-        globalField.spoNumFish.num -= 1;
-        Debug.Log("fishSpownNum = " + globalField.spoNumFish.num);
+        Destroy(base.gameObject);
+        GlobalField.globalField.spoNumFish.num -= 1;
+        Debug.Log("fishSpownNum = " + GlobalField.globalField.spoNumFish.num);
     }
+
+
     //岩の位置の判定
     void rockjudge()
     {
@@ -237,9 +237,13 @@ public class SCFish : MonoBehaviour
         objPosition[1] = (base.gameObject).transform.position;
         objScale[1] = (base.gameObject).transform.localScale;
 
-        for (i = 0; i < globalField.spoNumRock.max; i++)
+        for (i = 0; i < GlobalField.globalField.spoNumRock.max; i++)
         {
-            obj[0] = GameObject.Find("rock" + i);
+            obj[0] = GlobalField.globalField.Rock[i];
+            if(obj[0] == null)
+            {
+                continue;
+            }
             //objPosition[0] = .transform.position;
             //objScale[0] = .transform.localScale;
             /*

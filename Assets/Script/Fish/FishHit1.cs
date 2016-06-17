@@ -4,7 +4,6 @@ using System.Collections;
 public class FishHit1 : MonoBehaviour {
     GameObject Fish;
     
-    GlobalField globalField;
     //魚の座標
     Vector3 fishCenterCoord;
     Vector3 fishScale;
@@ -25,7 +24,6 @@ public class FishHit1 : MonoBehaviour {
     UIFishLife uiFishLife; //スポナースクリプト
 	// Use this for initialization
 	void Start () {
-        globalField = GameObject.Find("GlobalField").GetComponent<GlobalField>();
         uiFishLife = GameObject.Find("SpownPoint").GetComponent<UIFishLife>();
 	}
 
@@ -36,20 +34,20 @@ public class FishHit1 : MonoBehaviour {
         Fish = base.gameObject;
         fishCenterCoord = Fish.GetComponent<Transform>().position;
         //fishScale = Fish.GetComponent<BoxCollider>().size;
-        fishScale = (Fish.GetComponent<Transform>().lossyScale) / globalField.SCALEDIFFRENCIAL;
+        fishScale = (Fish.GetComponent<Transform>().lossyScale) / GlobalField.globalField.SCALEDIFFRENCIAL;
 
         //Debug.Log(fishCenterCoord);
         Debug.Log("fishScale = "+fishScale);
 
-        //Debug.Log(globalField.rockPlaceNum);
-        for (i = 0; i < globalField.spoNumRock.num; i++)
+        //Debug.Log(GlobalField.globalField.rockPlaceNum);
+        for (i = 0; i < GlobalField.globalField.spoNumRock.num; i++)
         {
 
             if((Rock = GameObject.Find("rock" + i)) == null) {
                 continue;
             }
             rockCenterCoord = Rock.GetComponent<Transform>().position;
-            rockScale = (Rock.GetComponent<Transform>().lossyScale) / globalField.SCALEDIFFRENCIAL;
+            rockScale = (Rock.GetComponent<Transform>().lossyScale) / GlobalField.globalField.SCALEDIFFRENCIAL;
             //rockScale = Rock.GetComponent<BoxCollider>().size;
 
 
@@ -60,7 +58,7 @@ public class FishHit1 : MonoBehaviour {
             if (fishCenterCoord.x - ((fishScale.x) / 2) <= rockCenterCoord.x + ((rockScale.x) / 2) &&
                 fishCenterCoord.x + ((fishScale.x) / 2) >= rockCenterCoord.x - ((rockScale.x) / 2) &&
                 fishCenterCoord.y - ((fishScale.y) / 2) <= rockCenterCoord.y + ((rockScale.y) / 2) &&
-                fishCenterCoord.y + ((fishScale.y) / 2) >= rockCenterCoord.y - ((rockScale.y) / 2) + globalField.avoidDist)
+                fishCenterCoord.y + ((fishScale.y) / 2) >= rockCenterCoord.y - ((rockScale.y) / 2) + GlobalField.globalField.avoidDist)
             ////if (fishCenterCoord.x <= rockCenterCoord.x + (Rock.transform.lossyScale.x) &&
             ////    fishCenterCoord.x + (Fish.transform.lossyScale.x) >= rockCenterCoord.x &&
             ////    fishCenterCoord.y - (Fish.transform.lossyScale.y) <= rockCenterCoord.y &&
@@ -69,18 +67,18 @@ public class FishHit1 : MonoBehaviour {
             {
                 Debug.Log("Hit " + Fish + " to " + Rock);
                 if (fishCenterCoord.x > rockCenterCoord.x) {
-                    Fish.GetComponent<Transform>().position += new Vector3(globalField.avoidSpeed, 0.0f, 0.0f);
+                    Fish.GetComponent<Transform>().position += new Vector3(GlobalField.globalField.avoidSpeed, 0.0f, 0.0f);
                 }
                 else
                 {
-                    Fish.GetComponent<Transform>().position += new Vector3(-globalField.avoidSpeed, 0.0f, 0.0f);
+                    Fish.GetComponent<Transform>().position += new Vector3(-(GlobalField.globalField.avoidSpeed), 0.0f, 0.0f);
                 }
             }
 
         }
-        if (globalField.invincible == false)
+        if (GlobalField.globalField.invincible == false)
         {
-            for (i = 0; i < globalField.spoNumTrash.max; i++)
+            for (i = 0; i < GlobalField.globalField.spoNumTrash.max; i++)
             {
                 if ((Trash = GameObject.Find("trash" + i)) == null)
                 {
@@ -88,22 +86,22 @@ public class FishHit1 : MonoBehaviour {
                 }
                 trashCenterCoord = Trash.GetComponent<Transform>().position;
                 //trashScale = Trash.GetComponent<BoxCollider>().size;
-                trashScale = Trash.GetComponent<Transform>().lossyScale / globalField.SCALEDIFFRENCIAL;
-                if (fishCenterCoord.x - ((fishScale.x) / 2) <= trashCenterCoord.x + ((trashScale.x) / 2) - globalField.grazeDist &&
-                    fishCenterCoord.x + ((fishScale.x) / 2) >= trashCenterCoord.x - ((trashScale.x) / 2) + globalField.grazeDist &&
-                    fishCenterCoord.y - ((fishScale.y) / 2) <= trashCenterCoord.y + ((trashScale.y) / 2) - globalField.grazeDist &&
-                    fishCenterCoord.y + ((fishScale.y) / 2) >= trashCenterCoord.y - ((trashScale.y) / 2) + globalField.grazeDist)
+                trashScale = Trash.GetComponent<Transform>().lossyScale / GlobalField.globalField.SCALEDIFFRENCIAL;
+                if (fishCenterCoord.x - ((fishScale.x) / 2) <= trashCenterCoord.x + ((trashScale.x) / 2) - GlobalField.globalField.grazeDist &&
+                    fishCenterCoord.x + ((fishScale.x) / 2) >= trashCenterCoord.x - ((trashScale.x) / 2) + GlobalField.globalField.grazeDist &&
+                    fishCenterCoord.y - ((fishScale.y) / 2) <= trashCenterCoord.y + ((trashScale.y) / 2) - GlobalField.globalField.grazeDist &&
+                    fishCenterCoord.y + ((fishScale.y) / 2) >= trashCenterCoord.y - ((trashScale.y) / 2) + GlobalField.globalField.grazeDist)
                 {
                     Fish.GetComponent<fishBreak>().FishDelete(Fish);
                     Trash.GetComponent<TrashDestory>().TrashDelete(Trash);
-                    uiFishLife.LifeBreaking(globalField.life.num - 1);
-                    globalField.life.num -= 1;
-                    Debug.Log("life =" + globalField.life.num);
+                    uiFishLife.LifeBreaking(GlobalField.globalField.life.num - 1);
+                    GlobalField.globalField.life.num -= 1;
+                    Debug.Log("life =" + GlobalField.globalField.life.num);
                 }
             }
         }
 
-        for(i = 0;i < globalField.spoNumBook.max; i++)
+        for(i = 0;i < GlobalField.globalField.spoNumBook.max; i++)
         {
             if ((Book = GameObject.Find("book" + i)) == null){
                 continue;

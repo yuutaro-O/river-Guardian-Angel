@@ -3,19 +3,17 @@ using System.Collections;
 
 public class SC_Trash : MonoBehaviour
 {
-    GlobalField globalField;
-    GameObject Trash;
+
     float trashMoveSpd = 3.0f;
     // Use this for initialization
     void Start()
     {
-        globalField = GameObject.Find("GlobalField").GetComponent<GlobalField>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (globalField.pouseFlg == false)
+        if (GlobalField.globalField.pouseFlg == false)
         {
             Move();
             Destroy();
@@ -25,8 +23,7 @@ public class SC_Trash : MonoBehaviour
 
     void Move()
     {
-            Trash = base.gameObject;
-            Trash.GetComponent<Transform>().position += new Vector3(0.0f, -trashMoveSpd, 0.0f);
+            GetComponent<Transform>().position += new Vector3(0.0f, -trashMoveSpd, 0.0f);
     }
 
     void Destroy()
@@ -37,19 +34,19 @@ public class SC_Trash : MonoBehaviour
             //画面上部に到達すると敵が消滅
             //if (tagViewport.y > 1)
 
-            if (base.gameObject.GetComponent<Transform>().position.y <= globalField.destroyPoint[globalField.TRASH])
+            if (base.gameObject.GetComponent<Transform>().position.y <= GlobalField.globalField.destroyPoint[GlobalField.globalField.TRASH])
             {
-                TrashDelete(base.gameObject);
+                TrashDelete();
                 //Destroy(gameObject);
                 //
             }
 
             //Debug.Log(fish);
     }
-    public void TrashDelete(GameObject deleter)
+    public void TrashDelete()
     {
-        Destroy(deleter);
-        globalField.spoNumTrash.num -= 1;   //バグ発生
-        Debug.Log("TrashSpownNum = " + globalField.spoNumTrash.num);
+        GlobalField.globalField.spoNumTrash.num -= 1;   //バグ発生
+        Debug.Log("TrashSpownNum = " + GlobalField.globalField.spoNumTrash.num);
+        Destroy(base.gameObject);
     }
 }

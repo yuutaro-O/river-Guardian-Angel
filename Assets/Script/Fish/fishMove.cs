@@ -16,28 +16,26 @@ public class fishMove : MonoBehaviour
     public GameObject fish;         //自分自身のアドレス
     GameObject copyBite;            //エサに引き寄せる際に、えさのアドレスを持っておく
     float tagrad;            //エサをターゲットとした、ラジアン角
-    GlobalField globalField;
     // Use this for initialization
     void Start(){
         yspeed[0] = defSpd; //上るときの速度
         yspeed[1] = 2.0f;   //下るときの速度
         myDirecDown = false;
-        globalField = GameObject.Find("GlobalField").GetComponent<GlobalField>();
     }
 
     // Update is called once per frame
     void Update(){
         tagrad = 0.0f;
-        if (globalField.pouseFlg == false)
+        if (GlobalField.globalField.pouseFlg == false)
         {
             /*
             //画面上部に行った時、方向転換
-            if (fish.transform.position.y >= globalField.trunPoint){
+            if (fish.transform.position.y >= GlobalField.globalField.trunPoint){
                 myDirecDown = true;
             }
             */
             rockjudge();
-            for(int i = 0;i < globalField.spoNumRock.max; i++)
+            for(int i = 0;i < GlobalField.globalField.spoNumRock.max; i++)
             {
                 
                 if ((copyBite = GameObject.Find("bite" + i)) == null)
@@ -60,7 +58,7 @@ public class fishMove : MonoBehaviour
                 fish.transform.position += new Vector3(0, yspeed[0], 0);
             }
             //まれに魚が滝を登れずに、少し落ちる
-            if (GetComponent<Transform>().position.y > globalField.Maincamera.GetComponent<Transform>().position.y)
+            if (GetComponent<Transform>().position.y > GlobalField.globalField.Maincamera.GetComponent<Transform>().position.y)
             {
                 if (Random.Range(0, 10000) < chanceFishFall)
                 {

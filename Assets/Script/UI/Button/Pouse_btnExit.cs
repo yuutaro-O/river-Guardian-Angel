@@ -2,12 +2,9 @@
 using System.Collections;
 
 public class Pouse_btnExit : MonoBehaviour {
-
-    GlobalField globalField;
     SceneManager sceneManager;
 	// Use this for initialization
 	void Start () {
-        globalField = GameObject.FindGameObjectWithTag("GlobalField").GetComponent<GlobalField>();
         sceneManager = GameObject.Find("SceneManager").GetComponent<SceneManager>();
 	}
 	
@@ -18,7 +15,7 @@ public class Pouse_btnExit : MonoBehaviour {
 	}
     public void ButtonPush()
     {
-        globalField.pouseFlg = sceneManager.changePouse(false);
+        GlobalField.globalField.pouseFlg = sceneManager.changePouse(false);
         sceneManager.changeScene((int)SceneManager.scene.TITLE);
     }
 }
