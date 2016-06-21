@@ -4,7 +4,8 @@ using System.Collections;
 public class fishBreak : MonoBehaviour {
     Vector3 tagViewport;
     GlobalField globalField;
-    public GameObject fish;
+    //[SerializeField]
+    //GameObject fish;
     //GameObject screenCamera;
     // Use this for initialization
 
@@ -24,7 +25,7 @@ public class fishBreak : MonoBehaviour {
             //画面上部に到達すると敵が消滅
             //if (tagViewport.y > 1)
 
-            if (base.gameObject.GetComponent<Transform>().position.y >= globalField.destroyPoint[globalField.FISH])
+            if (base.gameObject.transform.position.y >= globalField.destroyPoint[globalField.FISH])
             {
                 FishDelete(base.gameObject);
                 

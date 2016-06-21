@@ -7,10 +7,16 @@ public class WaveManager : MonoBehaviour {
     public float playSecond;            //再生時間（秒単位）
     public bool pouseStats;             //演出を再生中かどうか？
     public GameObject UI_changewave;    //ウェーブチェンジのタイミングで表示されるテキスト
-    public GameObject UI_changeGene;
-    public GameObject rockPlace;
-	// Use this for initialization
-	void Start () {
+    [SerializeField]
+    ChanWave_gene SC_UI_changeGene;
+    [SerializeField]
+    GameObject UI_changeGene;
+    GameObject rockPlace;
+
+    [SerializeField]
+    Transform UI_ChangeGene;
+    // Use this for initialization
+    void Start () {
         rockPlace = GameObject.FindGameObjectWithTag("RockPlacer");
         //UI_changewave = GameObject.FindGameObjectWithTag("UI_changeWave");
         //UI_changeGene = GameObject.Find("UI_ChanWaveGeneration");
@@ -61,23 +67,23 @@ public class WaveManager : MonoBehaviour {
         bool ret = false;
         if (cnt > playcnt)
         {
-            UI_changeGene.GetComponent<Transform>().rotation = (Quaternion.Euler(0, 0, 0));
-            UI_changeGene.GetComponent<ChanWave_gene>().Sub_WaveDraw();
+            UI_ChangeGene.rotation = (Quaternion.Euler(0, 0, 0));
+            SC_UI_changeGene.Sub_WaveDraw();
             ret = true;
         }
         else if (cnt == 0)
         {
-            UI_changeGene.GetComponent<Transform>().rotation = (Quaternion.Euler(0, 0, 0));
+            UI_ChangeGene.rotation = (Quaternion.Euler(0, 0, 0));
         }
         else if (cnt == (int)(GlobalField.globalField.framerate * 2.0))
         {
-            UI_changeGene.GetComponent<ChanWave_gene>().Ad_WaveDraw();
+            SC_UI_changeGene.Ad_WaveDraw();
             UI_changeGene.SetActive(false);
 
         }
         else if(cnt < GlobalField.globalField.framerate * 2.0)
         {
-            UI_changeGene.GetComponent<Transform>().rotation = (Quaternion.Euler(90 * ((cnt / (float)(GlobalField.globalField.framerate * 2.0))), 0, 0));
+            UI_ChangeGene.rotation = (Quaternion.Euler(90 * ((cnt / (float)(GlobalField.globalField.framerate * 2.0))), 0, 0));
             
         }
         
@@ -88,7 +94,7 @@ public class WaveManager : MonoBehaviour {
         }
         else if (cnt >GlobalField.globalField.framerate * 3.0) //回転をしたから上にしたい
         {
-            UI_changeGene.GetComponent<Transform>().rotation = Quaternion.Euler(90 * ((cnt - (int)(GlobalField.globalField.framerate * 3.0)) /  (float)(GlobalField.globalField.framerate * 2.0 )) - 90, 0, 0); 
+            UI_ChangeGene.rotation = Quaternion.Euler(90 * ((cnt - (int)(GlobalField.globalField.framerate * 3.0)) /  (float)(GlobalField.globalField.framerate * 2.0 )) - 90, 0, 0); 
         }
         
         else

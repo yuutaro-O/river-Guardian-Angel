@@ -23,7 +23,7 @@ public class SC_Trash : MonoBehaviour
 
     void Move()
     {
-            GetComponent<Transform>().position += new Vector3(0.0f, -trashMoveSpd, 0.0f);
+            transform.position += new Vector3(0.0f, -trashMoveSpd, 0.0f);
     }
 
     void Destroy()
@@ -34,7 +34,7 @@ public class SC_Trash : MonoBehaviour
             //画面上部に到達すると敵が消滅
             //if (tagViewport.y > 1)
 
-            if (base.gameObject.GetComponent<Transform>().position.y <= GlobalField.globalField.destroyPoint[GlobalField.globalField.TRASH])
+            if (base.gameObject.transform.position.y <= GlobalField.globalField.destroyPoint[GlobalField.globalField.TRASH])
             {
                 TrashDelete();
                 //Destroy(gameObject);

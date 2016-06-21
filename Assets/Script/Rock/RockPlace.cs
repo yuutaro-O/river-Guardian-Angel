@@ -28,7 +28,7 @@ public class RockPlace : MonoBehaviour
     {
         if (index >= 0  && index < GlobalField.globalField.spoNumRock.max)
         {
-            if (GameObject.Find(STR_ROCK + index) != null)
+            if (GameObject.Find(STR_ROCK + index) != null)  //スタックオーバーフローエラー
             {
                 for (int l = 0; l < GlobalField.globalField.spoNumRock.max; l++)
                 {

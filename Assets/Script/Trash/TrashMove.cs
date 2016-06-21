@@ -16,7 +16,7 @@ public class TrashMove : MonoBehaviour
         if (GlobalField.globalField.pouseFlg == false)
         {
             Trash = base.gameObject;
-            Trash.GetComponent<Transform>().position += new Vector3(0.0f, -trashMoveSpd, 0.0f);
+            Trash.transform.position += new Vector3(0.0f, -trashMoveSpd, 0.0f);
         }
     }
 }

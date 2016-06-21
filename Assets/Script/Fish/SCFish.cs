@@ -75,8 +75,8 @@ public class SCFish : MonoBehaviour
             }
 
             //copyBite = GameObject.Find("bite" + i);
-            tagrad = Mathf.Atan2(fish.GetComponent<Transform>().position.y - copyBite.GetComponent<Transform>().position.y, fish.GetComponent<Transform>().position.x - copyBite.GetComponent<Transform>().position.x);
-            fish.GetComponent<Transform>().position -= new Vector3(Mathf.Cos(tagrad) * spd, 0, 0);
+            tagrad = Mathf.Atan2(fish.transform.position.y - copyBite.transform.position.y, fish.transform.position.x - copyBite.transform.position.x);
+            fish.transform.position -= new Vector3(Mathf.Cos(tagrad) * spd, 0, 0);
         }
 
         //移動
@@ -89,7 +89,7 @@ public class SCFish : MonoBehaviour
             fish.transform.position += new Vector3(0, yspeed[0], 0);
         }
         //まれに魚が滝を登れずに、少し落ちる
-        if (GetComponent<Transform>().position.y > GlobalField.globalField.Maincamera.GetComponent<Transform>().position.y)
+        if (transform.position.y > GlobalField.globalField.Maincamera.transform.position.y)
         {
             if (Random.Range(0, 10000) < chanceFishFall)
             {
@@ -109,7 +109,7 @@ public class SCFish : MonoBehaviour
     }
     void BreakJudge()
     {
-        if (base.gameObject.GetComponent<Transform>().position.y >= GlobalField.globalField.destroyPoint[GlobalField.globalField.FISH])
+        if (base.gameObject.transform.position.y >= GlobalField.globalField.destroyPoint[GlobalField.globalField.FISH])
         {
             FishDelete();
 
@@ -120,9 +120,9 @@ public class SCFish : MonoBehaviour
     void HitJudge()
     {
         Fish = base.gameObject;
-        fishCenterCoord = Fish.GetComponent<Transform>().position;
+        fishCenterCoord = Fish.transform.position;
         //fishScale = Fish.GetComponent<BoxCollider>().size;
-        fishScale = (Fish.GetComponent<Transform>().lossyScale) / GlobalField.globalField.SCALEDIFFRENCIAL;
+        fishScale = (Fish.transform.lossyScale) / GlobalField.globalField.SCALEDIFFRENCIAL;
 
         //Debug.Log(fishCenterCoord);
         Debug.Log("fishScale = " + fishScale);
@@ -183,9 +183,9 @@ public class SCFish : MonoBehaviour
             {
                 continue;
             }
-            trashCenterCoord = GlobalField.globalField.Trash[i].GetComponent<Transform>().position;
+            trashCenterCoord = GlobalField.globalField.Trash[i].transform.position;
             //trashScale = Trash.GetComponent<BoxCollider>().size;
-            trashScale = GlobalField.globalField.Trash[i].GetComponent<Transform>().lossyScale / GlobalField.globalField.SCALEDIFFRENCIAL;
+            trashScale = GlobalField.globalField.Trash[i].transform.lossyScale / GlobalField.globalField.SCALEDIFFRENCIAL;
             if (fishCenterCoord.x - ((fishScale.x) / 2) <= trashCenterCoord.x + ((trashScale.x) / 2) - GlobalField.globalField.grazeDist &&
                 fishCenterCoord.x + ((fishScale.x) / 2) >= trashCenterCoord.x - ((trashScale.x) / 2) + GlobalField.globalField.grazeDist &&
                 fishCenterCoord.y - ((fishScale.y) / 2) <= trashCenterCoord.y + ((trashScale.y) / 2) - GlobalField.globalField.grazeDist &&
@@ -208,7 +208,7 @@ public class SCFish : MonoBehaviour
             {
                 continue;
             }
-            bookCenterCoord = Book.GetComponent<Transform>().position;
+            bookCenterCoord = Book.transform.position;
             bookScale = Book.GetComponent<BoxCollider>().size;
             if (fishCenterCoord.x - ((fishScale.x) / 2) <= bookCenterCoord.x + ((bookScale.x) / 2) &&
                 fishCenterCoord.x + ((fishScale.x) / 2) >= bookCenterCoord.x - ((bookScale.x) / 2) &&

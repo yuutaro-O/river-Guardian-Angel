@@ -8,12 +8,19 @@ public class BitePlace : MonoBehaviour
     //int placeSecondCnt;
     //GameObject globalField;
 
-    public GameObject bite;
-    public GameObject tapPoint;
+    [SerializeField]
+    GameObject bite;
+    [SerializeField]
+    GameObject tapPoint;
+
     GameObject UIAdress;
     bool isTouchUIActive = false;
     GameObject copyRock;
     Vector3 placePoint;
+
+    [SerializeField]
+    Transform canvas;
+
 
     public int i;
     // Use this for initialization
@@ -72,7 +79,7 @@ public class BitePlace : MonoBehaviour
         mousePoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         placePoint = new Vector3(mousePoint.x, mousePoint.y, (float)(GlobalField.LEYER.BITE));
         UIAdress = (GameObject)Instantiate(tapPoint, placePoint, Quaternion.Euler(0, 0, 0));
-        UIAdress.GetComponent<Transform>().SetParent(GameObject.Find("Canvas").GetComponent<Transform>());
+        UIAdress.transform.SetParent(canvas);
         isTouchUIActive = true;
     }
     void BitePlacing()
@@ -101,3 +108,6 @@ public class BitePlace : MonoBehaviour
         GlobalField.globalField.placeSecondCnt = 0;
     }
 }
+
+
+
