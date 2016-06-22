@@ -25,10 +25,10 @@ public class SCFish : MonoBehaviour
     UIFishLife uiFishLife; //スポナースクリプト
     //fromMove
     [SerializeField]
-    float defSpd;  //魚のy軸下り移動速度、将来削除予定
+    float defSpd;                   //魚のy軸下り移動速度、将来削除予定
     float[] yspeed = new float[2];  //魚のy軸移動速度　０…上り速度　１…下り速度
 
-    float spd = 2.0f;             //魚の移動速度
+    float spd = 2.0f;               //魚の移動速度
     int healcnt = 0;                //魚回復用のカウント
     int healcost = 0;               //魚が滝から落ちた際に、回復に必要とする時間
     bool myDirecDown;               //魚の進行方向が下りかどうか
@@ -66,17 +66,28 @@ public class SCFish : MonoBehaviour
         }
         */
         //rockjudge();
-        for (int i = 0; i < GlobalField.globalField.spoNumBite.max; i++)
         {
-
-            if ((copyBite = GlobalField.globalField.Bite[i]) == null)
+            float distance = new float();
+            Vector2[] point = new Vector2[2];
+            point[1] = new Vector2(transform.position.x * transform.position.x, transform.position.y * transform.position.y);
+            for (int i = 0; i < GlobalField.globalField.spoNumBite.max; i++)
             {
-                continue;
+                
+                if ((copyBite = GlobalField.globalField.Bite[i]) == null)
+                {
+                    continue;
+                }
+                //距離の設定
+                point[0] = new Vector2(GlobalField.globalField.Bite[i].transform.position.x * GlobalField.globalField.Bite[i].transform.position.x, GlobalField.globalField.Bite[i].transform.position.y * GlobalField.globalField.Bite[i].transform.position.y);
+                
+                distance = Mathf.Pow((point[1].x - point[0].x) + (point[1].y - point[0].y), 0.5f);
+                if (distance <= 600.0f)
+                {
+                    //角度の設定
+                    tagrad = Mathf.Atan2(fish.transform.position.y - copyBite.transform.position.y, fish.transform.position.x - copyBite.transform.position.x);
+                    fish.transform.position -= new Vector3(Mathf.Cos(tagrad) * spd, 0, 0);
+                }
             }
-
-            //copyBite = GameObject.Find("bite" + i);
-            tagrad = Mathf.Atan2(fish.transform.position.y - copyBite.transform.position.y, fish.transform.position.x - copyBite.transform.position.x);
-            fish.transform.position -= new Vector3(Mathf.Cos(tagrad) * spd, 0, 0);
         }
 
         //移動
@@ -194,7 +205,7 @@ public class SCFish : MonoBehaviour
                 //Fish.GetComponent<fishBreak>().FishDelete(base.gameObject);
                 FishDelete();
                 GlobalField.globalField.Trash[i].GetComponent<SC_Trash>().TrashDelete();
-                uiFishLife.LifeBreaking(GlobalField.globalField.life.num - 1);
+                GlobalField.globalField.UILife[(GlobalField.globalField.life.num - 1)].GetComponent<SC_UILife>().LifeBreaking();
                 GlobalField.globalField.life.num -= 1;
                 Debug.Log("life =" + GlobalField.globalField.life.num);
             }
@@ -256,4 +267,6 @@ public class SCFish : MonoBehaviour
             */
         }
     }
+
+    
 }

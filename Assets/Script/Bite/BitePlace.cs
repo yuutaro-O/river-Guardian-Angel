@@ -84,7 +84,7 @@ public class BitePlace : MonoBehaviour
     }
     void BitePlacing()
     {
-        if (i > 3)
+        if (i >= GlobalField.globalField.spoNumBite.max)
         {
             i = 0;
         }

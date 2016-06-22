@@ -94,7 +94,8 @@ public class FishHit1 : MonoBehaviour {
                 {
                     Fish.GetComponent<fishBreak>().FishDelete(Fish);
                     Trash.GetComponent<TrashDestory>().TrashDelete(Trash);
-                    uiFishLife.LifeBreaking(GlobalField.globalField.life.num - 1);
+                    //uiFishLife.LifeBreaking(GlobalField.globalField.life.num - 1);
+                    GlobalField.globalField.UILife[GlobalField.globalField.life.num - 1].GetComponent<SCFish>().FishDelete();
                     GlobalField.globalField.life.num -= 1;
                     Debug.Log("life =" + GlobalField.globalField.life.num);
                 }

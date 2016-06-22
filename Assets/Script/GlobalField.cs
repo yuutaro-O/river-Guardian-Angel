@@ -91,9 +91,12 @@ public class GlobalField : MonoBehaviour
 
     public float framerate;
 
+    //メインゲームシーンのゲームオブジェクトリファレンス
     public GameObject[] Rock;
     public GameObject[] Bite;
     public GameObject[] Trash;
+    public GameObject[] Fish;
+    public GameObject[] UILife;
 
     static public GlobalField globalField;
 
@@ -151,8 +154,9 @@ public class GlobalField : MonoBehaviour
 
         }
         Debug.Log("spownPoint = " + spownPoint);
+        Bite = new GameObject[spoNumBite.max];
+        Fish = new GameObject[spoNumFish.max];
 
-        
 
     }
 
@@ -208,6 +212,7 @@ public class GlobalField : MonoBehaviour
         Rock = new GameObject[spoNumRock.max];
         Bite = new GameObject[spoNumBite.max];
         Trash = new GameObject[spoNumTrash.max];
+        UILife = new GameObject[life.max];
     }
 
     public void DebugModeOn()
@@ -225,5 +230,14 @@ public class GlobalField : MonoBehaviour
         waveFish.max = waveFish.max + (waveAddFish * wave);
         waveFish.num = 0;
 
+    }
+    public void FishDeleteAll()
+    {
+        int j;
+
+        for (j = 0; j < spoNumFish.max; j++)
+        {
+            Fish[j].GetComponent<SCFish>().FishDelete();
+        }
     }
 }

@@ -104,13 +104,15 @@ public class SceneManager : MonoBehaviour
         int k = 0;
         for (k = 0; k < mainGameTags.Count; k++)
         {
-          GameObject[] deleteObject = (GameObject.FindGameObjectsWithTag(mainGameTags[k]));
+            GameObject[] deleteObject = GameObject.FindGameObjectsWithTag(mainGameTags[k]);
             
             //gameobject[] deleteobject = gameobject.findgameobjectswithtag("fish");
             for (i = 0; i < deleteObject.Length; i++)
             {
                 Destroy(deleteObject[i]);
             }
+            spownPoint.GetComponent<UIFishLife>().AllLifeBreaking();
+
         }
         
         /*
