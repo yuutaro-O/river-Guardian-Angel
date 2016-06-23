@@ -104,7 +104,6 @@ public class BitePlace : MonoBehaviour
 
         GlobalField.globalField.spoNumBite.num += 1;
         pushFlg = true;
-        Debug.Log("biteplaceNum = " + GlobalField.globalField.spoNumBite.num);
         GlobalField.globalField.placeSecondCnt = 0;
     }
 }

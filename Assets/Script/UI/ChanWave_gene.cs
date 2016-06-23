@@ -20,7 +20,7 @@ public class ChanWave_gene : MonoBehaviour {
     
     public void Ad_WaveDraw()
     {
-        waveAdd = true;
+        //waveAdd = true;
     }
     public void Sub_WaveDraw()
     {

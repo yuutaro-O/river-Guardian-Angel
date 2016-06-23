@@ -38,10 +38,6 @@ public class SceneManager : MonoBehaviour
         
         nowScene = (int)scene.TITLE;
         changeScene(nowScene);
-        for (int i = 0; i < mainGameTags.Count; i++)
-        {
-            Debug.Log("gameTag[0] = " + mainGameTags[i]);
-        }
 
     }
 
@@ -53,6 +49,7 @@ public class SceneManager : MonoBehaviour
             GlobalField.globalField.pouseFlg = changePouse(!(pouseMenu.activeInHierarchy));
 
         }
+        
     }
 
     public void changeScene(int orderScene)
@@ -77,7 +74,7 @@ public class SceneManager : MonoBehaviour
         gameMode[orderScene].SetActive(true);
         switch(orderScene){
             case (int)scene.MAINGAME:
-                spownPoint.GetComponent<UIFishLife>().LifeInstanciate();
+                //spownPoint.GetComponent<UIFishLife>().LifeInstanciate();
                 break;
             default:
                 break;
@@ -111,7 +108,7 @@ public class SceneManager : MonoBehaviour
             {
                 Destroy(deleteObject[i]);
             }
-            spownPoint.GetComponent<UIFishLife>().AllLifeBreaking();
+            //spownPoint.GetComponent<UIFishLife>().AllLifeBreaking();
 
         }
         

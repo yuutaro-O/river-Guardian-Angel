@@ -46,7 +46,7 @@ public class GlobalField : MonoBehaviour
     public float spownRangeDif;
     public float xspownCenter;// = 332.0f;
     //ライフ
-    public ObjectSpownNumber life;          //残機
+    ObjectSpownNumber life;          //残機
     //public GameObject Maincamera = GameObject.Find("MainCamera");
     public GameObject Maincamera;
     //public Camera Maincamera = Camera.current;
@@ -84,13 +84,13 @@ public class GlobalField : MonoBehaviour
         UITEXT
     }
    
-    public bool invincible;
+    bool invincible;
 
     public int wave; //ウェーブ数
     public int score; //スコア
 
     public float framerate;
-
+    public float BiteDistance = 240.0f; //エサを感知する距離
     //メインゲームシーンのゲームオブジェクトリファレンス
     public GameObject[] Rock;
     public GameObject[] Bite;
@@ -120,11 +120,9 @@ public class GlobalField : MonoBehaviour
 
         spownPoint = -0.002f;
         life.max = 5;
-        waveAddFish = 7;
+        waveAddFish = 4;
         rockPlaceSecond = (int)(Application.targetFrameRate * 0.8); //およそ0.8秒
-        Debug.Log("rockPlaceSecond = " + rockPlaceSecond);
         biteBreakCnt = (int)(Application.targetFrameRate * 5.0);
-        Debug.Log("biteBreakCnt = " + biteBreakCnt);
         reset();
         /*
         LAYER["FISH"] = 1.0f;
@@ -144,7 +142,6 @@ public class GlobalField : MonoBehaviour
                 //fishSpownPoint[i] = Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(spownPointx[i], spownPoint, L_FISH));
                 tempArray.Add(Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(spownPointx[i], spownPoint,(float)LEYER.FISH)));
                 tempArray2.Add(Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(spownPointx[i], 1.01f, (float)LEYER.TRASH)));
-                Debug.Log("fishSpownPoint[" + i + "] = " + tempArray[i]);
             }
             //fishSpownPoint = new Vector3(tempArray.ToArray());
             fishSpownPoint = (Vector3[])tempArray.ToArray(typeof(Vector3));
@@ -153,7 +150,6 @@ public class GlobalField : MonoBehaviour
             //ゴミスポーンポイントの設定
 
         }
-        Debug.Log("spownPoint = " + spownPoint);
         Bite = new GameObject[spoNumBite.max];
         Fish = new GameObject[spoNumFish.max];
 
@@ -186,7 +182,8 @@ public class GlobalField : MonoBehaviour
         //waveFish.max = 15;  //1ウェーブ目の魚の数
         waveFish.max = 5;  //1ウェーブ目の魚の数
 
-        life.num = life.max;
+        lifeMaxSet();
+        //life.num = 0;
         grazeDist = 12.5f;
         //avoidDist = 0.03f;
         avoidDist = 100.0f;
@@ -213,6 +210,20 @@ public class GlobalField : MonoBehaviour
         Bite = new GameObject[spoNumBite.max];
         Trash = new GameObject[spoNumTrash.max];
         UILife = new GameObject[life.max];
+        DebugModeOn();
+    }
+    public void lifeMaxSet()
+    {
+        life.num = life.max;
+    }
+    public void LifeDeclane()
+    {
+        life.num -= 1;
+    }
+
+    public int GetLife()
+    {
+        return life.num;
     }
 
     public void DebugModeOn()
@@ -227,8 +238,9 @@ public class GlobalField : MonoBehaviour
     public void WaveChange()
     {
         wave++;
-        waveFish.max = waveFish.max + (waveAddFish * wave);
+        waveFish.max = waveFish.max + (waveAddFish * (wave - 1));
         waveFish.num = 0;
+
 
     }
     public void FishDeleteAll()
@@ -239,5 +251,10 @@ public class GlobalField : MonoBehaviour
         {
             Fish[j].GetComponent<SCFish>().FishDelete();
         }
+    }
+
+    public bool GetInvincible()
+    {
+        return invincible;
     }
 }

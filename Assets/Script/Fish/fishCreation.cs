@@ -4,7 +4,7 @@ using System.Collections;
 public class fishCreation : MonoBehaviour
 {
     [SerializeField]
-    int basePoint;
+    short basePoint;
     public GameObject fish;
     public GameObject copyFish;
     GlobalField globalField;
@@ -22,7 +22,7 @@ public class fishCreation : MonoBehaviour
     {
         if (globalField.pouseFlg == false)
         {
-            if (UnityEngine.Random.Range(0, 100) >= basePoint)
+            if (UnityEngine.Random.Range(0, 10000) >= basePoint)
             {
                 if (globalField.waveFish.num < globalField.waveFish.max)
                 {
@@ -42,7 +42,8 @@ public class fishCreation : MonoBehaviour
                         */
                         //copyFish = (GameObject)Instantiate(fish, new Vector3(globalField.fishspownPointx[(int)UnityEngine.Random.Range(0,2)], globalField.fishSpownPoint.y, globalField.L_FISH), Quaternion.Euler(new Vector3(0, 0, 0)));
                         //copyFish = (GameObject)Instantiate(fish, new Vector3(globalField.fishspownPointx[(int)UnityEngine.Random.Range(0, 2)], globalField.fishSpownPoint.y, globalField.L_FISH), Quaternion.Euler(new Vector3(0, 0, 0)));
-                        copyFish = (GameObject)Instantiate(fish, globalField.fishSpownPoint[(int)(Random.Range(0, globalField.fishSpownPoint.Length - 1))], Quaternion.Euler(new Vector3(0, 0, 0)));
+                        //copyFish = (GameObject)Instantiate(fish, globalField.fishSpownPoint[(int)(Random.Range(0, globalField.fishSpownPoint.Length - 1))], Quaternion.Euler(new Vector3(0, 0, 0)));
+                        copyFish = (GameObject)Instantiate(fish, globalField.fishSpownPoint[(int)(Random.Range(0, globalField.fishSpownPoint.Length - 1))], fish.transform.rotation);
                         copyFish.transform.SetParent(mainGame);
                         //copyFish.GetComponent<Transform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
                         globalField.spoNumFish.num += 1;
@@ -55,7 +56,6 @@ public class fishCreation : MonoBehaviour
                                 break;
                             }
                         }
-                        Debug.Log("fishSpownNum = " + globalField.spoNumFish.num);
                     }
                 }
             }

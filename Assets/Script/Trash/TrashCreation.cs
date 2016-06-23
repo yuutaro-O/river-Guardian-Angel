@@ -4,7 +4,10 @@ using System.Collections;
 public class TrashCreation : MonoBehaviour
 {
     [SerializeField]
-    int basePoint;
+    short basePoint;
+    [SerializeField]
+    int activeWave;
+
     int i;
     public GameObject trash;
 
@@ -13,27 +16,33 @@ public class TrashCreation : MonoBehaviour
     {
         if (GlobalField.globalField.pouseFlg == false)
         {
-            if (Random.Range(0, 100) >= basePoint)
+            if (Random.Range(0, 10000) >= basePoint)
             {
                 if (GlobalField.globalField.waveFish.num < GlobalField.globalField.waveFish.max)
                 {
                     if (GlobalField.globalField.spoNumTrash.num < GlobalField.globalField.spoNumTrash.max)
                     {
-                        for (i = 0; i < GlobalField.globalField.spoNumTrash.max; i++)
-                        {
-                            if (GlobalField.globalField.Trash[i] == null)
+                        if (GlobalField.globalField.wave >= activeWave) {
+                            for (i = 0; i < GlobalField.globalField.spoNumTrash.max; i++)
                             {
-                                GlobalField.globalField.Trash[i] = (GameObject)Instantiate(trash, GlobalField.globalField.trashSpownPoint[Random.Range(0, GlobalField.globalField.trashSpownPoint.Length - 1)], Quaternion.Euler(new Vector3(0, 0, 0)));
-                                GlobalField.globalField.Trash[i].name = "trash" + i;
-
-                                GlobalField.globalField.spoNumTrash.num += 1;
-                                Debug.Log("trashSpownNum = " + GlobalField.globalField.spoNumTrash.num);
-                                break;
+                                if (GlobalField.globalField.Trash[i] == null)
+                                {
+                                    TrashCreate();
+                                    break;
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    public void TrashCreate()
+    {
+        GlobalField.globalField.Trash[i] = (GameObject)Instantiate(trash, GlobalField.globalField.trashSpownPoint[Random.Range(0, GlobalField.globalField.trashSpownPoint.Length - 1)], Quaternion.Euler(new Vector3(0, 0, 0)));
+        GlobalField.globalField.Trash[i].name = "trash" + i;
+
+        GlobalField.globalField.spoNumTrash.num += 1;
     }
 }

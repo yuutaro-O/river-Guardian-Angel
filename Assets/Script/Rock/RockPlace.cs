@@ -7,50 +7,46 @@ public class RockPlace : MonoBehaviour
     bool pushFlg;
     //int placeSecondCnt;
     //GameObject globalField;
-
-    public GameObject rock;
+    [SerializeField]
+    GameObject rock;
     public GameObject tapPoint;
     GameObject UIAdress;
     bool isTouchUIActive = false;
     GameObject copyRock;
     Vector3 placePoint;
 
-    public int i;
+    int i;
 
     const string STR_ROCK = "rock";
+
+    [SerializeField]
+    int deActiveWave;
+    [SerializeField]
+    int reActiveWave;
     // Use this for initialization
     void Start()
     {
         i = 0;
     }
     
-    public GameObject RockPlacing(int index,Vector3 tPlacePoint)
+    public void WaveRockPlacing()
     {
-        if (index >= 0  && index < GlobalField.globalField.spoNumRock.max)
+        if (GlobalField.globalField.wave >= reActiveWave || GlobalField.globalField.wave <= deActiveWave)
         {
-            if (GameObject.Find(STR_ROCK + index) != null)  //スタックオーバーフローエラー
+            for (int i = 0; i < GlobalField.globalField.spoNumRock.max; i++)
             {
-                for (int l = 0; l < GlobalField.globalField.spoNumRock.max; l++)
-                {
-                    if (GameObject.Find(STR_ROCK + l) == null)
-                    {
-                        RockPlacing(i, tPlacePoint);
-                        break;
-                    }
-                }
-                return null;
+                GlobalField.globalField.Rock[i] = RockPlacing();
             }
-            copyRock = (GameObject)Instantiate(rock, tPlacePoint, Quaternion.Euler(0, 0, 0));
-            copyRock.name = STR_ROCK + index;
-
-            //globalField = GameObject.Find("GlobalField");
-            //globalField.GetComponent<GlobalField>().spoNumRock.num += 1;
-
-            GlobalField.globalField.spoNumRock.num += 1;
-            Debug.Log("rockplaceNum = " + GlobalField.globalField.spoNumRock.num);
-            
         }
-        return copyRock;
     }
+    public GameObject RockPlacing()
+    {
+        
+        GameObject ret;
+        placePoint = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0.15f, 0.85f), Random.Range(0.2f, 0.8f), (float)GlobalField.LEYER.ROCK));
 
+        ret = (GameObject)Instantiate(rock, placePoint, rock.transform.rotation);
+        ret.transform.position = new Vector3(ret.transform.position.x, ret.transform.position.y,(float)GlobalField.LEYER.ROCK);
+        return ret;
+    }
 }

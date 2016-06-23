@@ -20,11 +20,8 @@ public class FishHit1 : MonoBehaviour {
     Vector3 bookScale;
     GameObject Book;
     int i;
-
-    UIFishLife uiFishLife; //スポナースクリプト
 	// Use this for initialization
 	void Start () {
-        uiFishLife = GameObject.Find("SpownPoint").GetComponent<UIFishLife>();
 	}
 
     // Update is called once per frame
@@ -76,7 +73,7 @@ public class FishHit1 : MonoBehaviour {
             }
 
         }
-        if (GlobalField.globalField.invincible == false)
+        if (GlobalField.globalField.GetInvincible() == false)
         {
             for (i = 0; i < GlobalField.globalField.spoNumTrash.max; i++)
             {
@@ -95,9 +92,8 @@ public class FishHit1 : MonoBehaviour {
                     Fish.GetComponent<fishBreak>().FishDelete(Fish);
                     Trash.GetComponent<TrashDestory>().TrashDelete(Trash);
                     //uiFishLife.LifeBreaking(GlobalField.globalField.life.num - 1);
-                    GlobalField.globalField.UILife[GlobalField.globalField.life.num - 1].GetComponent<SCFish>().FishDelete();
-                    GlobalField.globalField.life.num -= 1;
-                    Debug.Log("life =" + GlobalField.globalField.life.num);
+                    GlobalField.globalField.UILife[GlobalField.globalField.GetLife() - 1].GetComponent<SCFish>().FishDelete();
+                    GlobalField.globalField.LifeDeclane();
                 }
             }
         }

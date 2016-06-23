@@ -88,8 +88,7 @@ public class FishHit : MonoBehaviour {
                 fishCenterCoord.y + ((fishScale.y) / 2) >= trashCenterCoord.y - ((trashScale.y) / 2) + globalField.grazeDist)
             {
                 Fish.GetComponent<fishBreak>().FishDelete(Fish);
-                globalField.life.num -= 1;
-                Debug.Log("life =" + globalField.life.num);
+                globalField.LifeDeclane();
             }
         }
         for(i = 0;i < globalField.spoNumBook.max; i++)

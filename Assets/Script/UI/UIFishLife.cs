@@ -19,7 +19,7 @@ public class UIFishLife : MonoBehaviour {
     {
         tagViewport = Camera.main.WorldToViewportPoint(base.transform.position);
         //copyLife = new GameObject[GlobalField.globalField.life.num];
-        for (int i = 0; i < GlobalField.globalField.life.num;i++)
+        for (int i = 0; i < GlobalField.globalField.GetLife();i++)
         {
             GlobalField.globalField.UILife[i] = (GameObject)Instantiate(Life, Camera.main.ViewportToWorldPoint(new Vector3((float)(0.97 - (i * 0.045)), 0.05f, (float)GlobalField.LEYER.UILIFE)), Quaternion.Euler(0, 0, 0));
         }

@@ -3,11 +3,12 @@ using System.Collections;
 
 public class SC_Trash : MonoBehaviour
 {
-
-    float trashMoveSpd = 3.0f;
+    Rigidbody trashBody;
+    float trashMoveSpd = 100.0f;
     // Use this for initialization
     void Start()
     {
+        trashBody = base.gameObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -23,7 +24,8 @@ public class SC_Trash : MonoBehaviour
 
     void Move()
     {
-            transform.position += new Vector3(0.0f, -trashMoveSpd, 0.0f);
+        //transform.position += new Vector3(0.0f, -trashMoveSpd, 0.0f);
+        trashBody.velocity = new Vector3(0.0f, -trashMoveSpd, 0.0f);
     }
 
     void Destroy()
@@ -46,7 +48,7 @@ public class SC_Trash : MonoBehaviour
     public void TrashDelete()
     {
         GlobalField.globalField.spoNumTrash.num -= 1;   //バグ発生
-        Debug.Log("TrashSpownNum = " + GlobalField.globalField.spoNumTrash.num);
+
         Destroy(base.gameObject);
     }
 }

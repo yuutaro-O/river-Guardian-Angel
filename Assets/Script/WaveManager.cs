@@ -4,35 +4,43 @@ using System.Collections;
 public class WaveManager : MonoBehaviour {
     int cnt;                            //再生カウント
     int playcnt;                        //再生時間
+
+    int gameoverCnt;
+    int gameoverPlayCnt;
     public float playSecond;            //再生時間（秒単位）
+    float gameoverSecond;
     public bool pouseStats;             //演出を再生中かどうか？
     public GameObject UI_changewave;    //ウェーブチェンジのタイミングで表示されるテキスト
     [SerializeField]
     ChanWave_gene SC_UI_changeGene;
     [SerializeField]
     GameObject UI_changeGene;
-    GameObject rockPlace;
-
+    [SerializeField]
+    RockPlace rockPlace;
+    bool isgameOver;
     [SerializeField]
     Transform UI_ChangeGene;
+    [SerializeField]
+    GameObject UI_gameOver;
+    [SerializeField]
+    SceneManager sceneManager;
+    [SerializeField]
+    GameObject UI_ObjectiveFish;
     // Use this for initialization
     void Start () {
-        rockPlace = GameObject.FindGameObjectWithTag("RockPlacer");
+        //rockPlace = GameObject.FindGameObjectWithTag("RockPlacer");
         //UI_changewave = GameObject.FindGameObjectWithTag("UI_changeWave");
         //UI_changeGene = GameObject.Find("UI_ChanWaveGeneration");
-        Debug.Log("UI_ChangeWave = " + UI_changewave);
-        Debug.Log("globalField = " + GlobalField.globalField);
         playSecond = 5.0f;
+        gameoverSecond = 5.0f;
         playcnt = (int)(playSecond * GlobalField.globalField.framerate);
+        gameoverPlayCnt = (int)(gameoverSecond * GlobalField.globalField.framerate);
         cnt = 0;
         pouseStats = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        Debug.Log("waveManager.sponumfish" + GlobalField.globalField.spoNumFish);
-        Debug.Log("waveManager.sponumtrash" + GlobalField.globalField.spoNumTrash);
-        Debug.Log("UI_ChangeWave = " + UI_changewave);
         if (pouseStats == false)
         {
             if (GlobalField.globalField.waveFish.num >= GlobalField.globalField.waveFish.max)
@@ -41,9 +49,19 @@ public class WaveManager : MonoBehaviour {
                 {
                     if (GlobalField.globalField.spoNumTrash.num <= 0)
                     {
-                        pouseStats = true;
-                        
-                        UI_changewave.SetActive(true);
+                        if (GlobalField.globalField.GetLife() <= 0)
+                        {
+                            pouseStats = true;
+                            isgameOver = true;
+                            UI_gameOver.SetActive(true);
+
+                        }
+                        else
+                        {
+                            pouseStats = true;
+
+                            UI_changewave.SetActive(true);
+                        }
                     }
                 }
             }
@@ -55,8 +73,18 @@ public class WaveManager : MonoBehaviour {
                 pouseStats = false;
                 cnt = 0;
                 UI_changewave.SetActive(false);
-                GlobalField.globalField.WaveChange();
+                UI_ObjectiveFish.SetActive(false);
                 WaveRockPlace();
+            }
+            if(isgameOver == true)
+            {
+                gameoverCnt++;
+                if(gameoverCnt > gameoverPlayCnt)
+                {
+                    isgameOver = false;
+                    UI_gameOver.SetActive(false);
+                    sceneManager.changeScene(SceneManager.scene.RESULT);
+                }
             }
             
         }
@@ -90,6 +118,8 @@ public class WaveManager : MonoBehaviour {
         else if (cnt == (int)(GlobalField.globalField.framerate * 3.0))
         {
             UI_changeGene.SetActive(true);
+            UI_ObjectiveFish.SetActive(true);
+            GlobalField.globalField.WaveChange();
 
         }
         else if (cnt >GlobalField.globalField.framerate * 3.0) //回転をしたから上にしたい
@@ -106,22 +136,29 @@ public class WaveManager : MonoBehaviour {
     }
     public void WaveRockPlace()
     {
-        Vector3 PlacePoint;
+        //Vector3 PlacePoint;
         AllRockDelete();
+        rockPlace.WaveRockPlacing();
+        /*
         for(int i = 0; i < GlobalField.globalField.spoNumRock.max; i++)
         {
             PlacePoint = Camera.main.ViewportToWorldPoint(new Vector3( Random.Range(0.0f, 0.9f), Random.Range(0.0f, 0.9f), (float)GlobalField.LEYER.ROCK));
             GlobalField.globalField.Rock[i] = rockPlace.GetComponent<RockPlace>().RockPlacing(i,PlacePoint);
         }
+        */
     }
 
     public void AllRockDelete()
     {
-        GameObject[] Rock = new GameObject[GlobalField.globalField.spoNumRock.num];
-        Rock = GameObject.FindGameObjectsWithTag("Rock");
-        for (int i = 0; i < GlobalField.globalField.spoNumRock.num; i++)
+        //GameObject[] Rock = new GameObject[GlobalField.globalField.spoNumRock.num];
+        //Rock = GameObject.FindGameObjectsWithTag("Rock");
+        //for (int i = 0; i < GlobalField.globalField.spoNumRock.num; i++)
+        for (int i = 0; i < GlobalField.globalField.Rock.Length; i++)
         {
-            Rock[i].GetComponent<SC_Rock>().deleteRock();
+            if (GlobalField.globalField.Rock[i] != null)
+            {
+                GlobalField.globalField.Rock[i].GetComponent<SC_Rock>().deleteRock();
+            }
         }
     }
 }
