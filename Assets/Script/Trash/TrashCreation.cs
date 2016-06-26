@@ -8,12 +8,17 @@ public class TrashCreation : MonoBehaviour
     [SerializeField]
     int activeWave;
 
+    bool TrashCreatable;
+
+
     int i;
+    int j;
     public GameObject trash;
 
     // Update is called once per frame
     void Update()
     {
+        TrashCreatable = true;
         if (GlobalField.globalField.pouseFlg == false)
         {
             if (Random.Range(0, 10000) >= basePoint)
@@ -23,14 +28,29 @@ public class TrashCreation : MonoBehaviour
                     if (GlobalField.globalField.spoNumTrash.num < GlobalField.globalField.spoNumTrash.max)
                     {
                         if (GlobalField.globalField.wave >= activeWave) {
-                            for (i = 0; i < GlobalField.globalField.spoNumTrash.max; i++)
+                            for(j = 0;j < GlobalField.globalField.Fish.Length; j++)
                             {
-                                if (GlobalField.globalField.Trash[i] == null)
+                                if (GlobalField.globalField.Fish[j] == null)
                                 {
-                                    TrashCreate();
-                                    break;
+                                    continue;
+                                }
+                                if (GlobalField.globalField.Fish[j].transform.position.y > GlobalField.globalField.TRASHSPOWNINACTIVEPOINT)
+                                {
+                                    TrashCreatable = false;
                                 }
                             }
+                            if(TrashCreatable == true)
+                            {
+                                for (i = 0; i < GlobalField.globalField.spoNumTrash.max; i++)
+                                {
+                                    if (GlobalField.globalField.Trash[i] == null)
+                                    {
+                                        TrashCreate();
+                                        break;
+                                    }
+                                }
+                            }
+                            
                         }
                     }
                 }

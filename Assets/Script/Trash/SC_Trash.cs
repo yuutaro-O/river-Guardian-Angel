@@ -4,6 +4,7 @@ using System.Collections;
 public class SC_Trash : MonoBehaviour
 {
     Rigidbody trashBody;
+    float tagrad;
     float trashMoveSpd = 100.0f;
     // Use this for initialization
     void Start()
@@ -50,5 +51,14 @@ public class SC_Trash : MonoBehaviour
         GlobalField.globalField.spoNumTrash.num -= 1;   //バグ発生
 
         Destroy(base.gameObject);
+    }
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Rock"))
+        {
+            Debug.Log(name + "isHitRock");
+            tagrad = Mathf.Atan2(other.gameObject.transform.position.y - transform.position.y, other.gameObject.transform.position.x - transform.position.x);
+            trashBody.velocity = new Vector3((Mathf.Cos(tagrad) * trashMoveSpd), 70.0f, 0);
+        }
     }
 }

@@ -35,6 +35,10 @@ public class GlobalField : MonoBehaviour
     //public Vector3 fishSpownPoint;          //魚を発生させる位置、x座標は中心地点を指定
     public Vector3[] fishSpownPoint;
     public Vector3[] trashSpownPoint;         //ゴミを発生させる位置、x座標は中心地点を指定
+    [SerializeField]
+    float trashSpownInactiveVPy;
+    public float TRASHSPOWNINACTIVEPOINT;
+
     public int rockPlaceSecond;             //岩を設置する為に必要な時間
     public int placeSecondCnt;              //岩を設置する際のカウント
     public float trunPoint;                 //魚が進行方向を変える場所
@@ -90,13 +94,18 @@ public class GlobalField : MonoBehaviour
     public int score; //スコア
 
     public float framerate;
-    public float BiteDistance = 240.0f; //エサを感知する距離
+    //public float BiteDistance = 10000.0f; //エサを感知する距離
+    public Vector2 BiteDistance = new Vector2(80.0f,200.0f); //エサを感知する距離
     //メインゲームシーンのゲームオブジェクトリファレンス
     public GameObject[] Rock;
     public GameObject[] Bite;
     public GameObject[] Trash;
     public GameObject[] Fish;
     public GameObject[] UILife;
+    public GameObject[] RiverLine;
+    //ステージ線のスポーン数
+    public ObjectSpownNumber spoNumRiverLine;
+
 
     static public GlobalField globalField;
 
@@ -117,9 +126,12 @@ public class GlobalField : MonoBehaviour
 
         destroyPoint[FISH] = (Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.0f, 1.01f, 0.0f))).y;
         destroyPoint[TRASH] = (Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.0f, -0.01f, 0.0f))).y;
+        TRASHSPOWNINACTIVEPOINT = (Maincamera.GetComponent<Camera>().ViewportToWorldPoint(new Vector3(0.0f, trashSpownInactiveVPy, 0.0f))).y;
+        
 
         spownPoint = -0.002f;
         life.max = 5;
+        spoNumRiverLine.max = 5;
         waveAddFish = 4;
         rockPlaceSecond = (int)(Application.targetFrameRate * 0.8); //およそ0.8秒
         biteBreakCnt = (int)(Application.targetFrameRate * 5.0);
@@ -152,6 +164,7 @@ public class GlobalField : MonoBehaviour
         }
         Bite = new GameObject[spoNumBite.max];
         Fish = new GameObject[spoNumFish.max];
+        RiverLine = new GameObject[spoNumRiverLine.max];
 
 
     }
@@ -204,13 +217,11 @@ public class GlobalField : MonoBehaviour
 
         //avoidSpeed = 0.015f;
         avoidSpeed = 12.0f;
-        invincible = false;
         //岩配列の初期化
         Rock = new GameObject[spoNumRock.max];
         Bite = new GameObject[spoNumBite.max];
         Trash = new GameObject[spoNumTrash.max];
         UILife = new GameObject[life.max];
-        DebugModeOn();
     }
     public void lifeMaxSet()
     {
@@ -240,6 +251,7 @@ public class GlobalField : MonoBehaviour
         wave++;
         waveFish.max = waveFish.max + (waveAddFish * (wave - 1));
         waveFish.num = 0;
+        life.num = life.max;
 
 
     }

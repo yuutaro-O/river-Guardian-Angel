@@ -26,6 +26,8 @@ public class WaveManager : MonoBehaviour {
     SceneManager sceneManager;
     [SerializeField]
     GameObject UI_ObjectiveFish;
+
+    
     // Use this for initialization
     void Start () {
         //rockPlace = GameObject.FindGameObjectWithTag("RockPlacer");
@@ -138,6 +140,7 @@ public class WaveManager : MonoBehaviour {
     {
         //Vector3 PlacePoint;
         AllRockDelete();
+        rockPlace.ResetRockPoint();
         rockPlace.WaveRockPlacing();
         /*
         for(int i = 0; i < GlobalField.globalField.spoNumRock.max; i++)

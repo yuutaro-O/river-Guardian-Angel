@@ -25,6 +25,7 @@ public class SCFish : MonoBehaviour
     UIFishLife uiFishLife; //スポナースクリプト
 
     bool isNotFindBite;
+    bool isThisFishAlive;
     //fromMove
     [SerializeField]
     float defSpd;                   //魚のy軸下り移動速度、将来削除予定
@@ -63,91 +64,105 @@ public class SCFish : MonoBehaviour
     }
     void Move()
     {
+
         tagrad = 0.0f;
-        /*
-        //画面上部に行った時、方向転換
-        if (fish.transform.position.y >= GlobalField.globalField.trunPoint){
-            myDirecDown = true;
-        }
-        */
-        //rockjudge();
+        
         //移動
         if (myDirecDown == true)
         {
-            //fish.transform.position += new Vector3(0, -yspeed[1], 0);
-            //fishBody.velocity  = new Vector3(0, -yspeed[1], 0);
             tagrad = 270 * 3.14f / 180;
         }
         else
         {
-            //fish.transform.position += new Vector3(0, yspeed[0], 0);
-            //fishBody.velocity = new Vector3(0, yspeed[0], 0);
             tagrad = 90 * 3.14f / 180;
         }
 
-        {
+        if(isThisFishAlive == true){
             float distance = new float();
             float[] point = new float[2];
             isNotFindBite = true;
             for (int i = 0; i < GlobalField.globalField.spoNumBite.max; i++)
             {
-                
-                if ((copyBite = GlobalField.globalField.Bite[i]) == null)
+
+                if (GlobalField.globalField.Bite[i] == null)
                 {
                     continue;
                 }
+
                 //距離の設定
                 point[0] = (GlobalField.globalField.Bite[i].transform.position.x - transform.position.x) * (GlobalField.globalField.Bite[i].transform.position.x - transform.position.x);
                 point[1] = (GlobalField.globalField.Bite[i].transform.position.y - transform.position.y) * (GlobalField.globalField.Bite[i].transform.position.y - transform.position.y);
                 //distance = Mathf.Pow(, 0.5f);
                 //distance = (point[1].x - point[0].x) + (point[1].y - point[0].y);
-                distance =  Mathf.Pow(point[1] + point[0],0.5f);
-                if (distance <= GlobalField.globalField.BiteDistance)
+                distance = Mathf.Pow(point[1] + point[0], 0.5f);
+
+                if ((GlobalField.globalField.Bite[i].transform.position.x - GlobalField.globalField.BiteDistance.x <= transform.position.x) &&
+                    (GlobalField.globalField.Bite[i].transform.position.x + GlobalField.globalField.BiteDistance.x >= transform.position.x) &&
+                    (GlobalField.globalField.Bite[i].transform.position.y - GlobalField.globalField.BiteDistance.y <= transform.position.y) &&
+                    (GlobalField.globalField.Bite[i].transform.position.y + GlobalField.globalField.BiteDistance.y >= transform.position.y))
                 {
-                    //角度の設定
-                    tagrad = Mathf.Atan2(fish.transform.position.y - copyBite.transform.position.y, fish.transform.position.x - copyBite.transform.position.x);
-                    fish.transform.rotation = Quaternion.Euler(new Vector3(0, 0, (tagrad * 180.0f / 3.14f )));
                     isNotFindBite = false;
+
+                    //角度の設定
+                    tagrad = Mathf.Atan2(GlobalField.globalField.Bite[i].transform.position.y - fish.transform.position.y, GlobalField.globalField.Bite[i].transform.position.x - fish.transform.position.x);
+                    fish.transform.rotation = Quaternion.Euler(new Vector3(0, 0, (tagrad * 180.0f / 3.14f) - 180));
+
                     //fish.transform.position -= new Vector3(Mathf.Cos(tagrad) * spd, 0, 0);
                     fishBody.velocity = new Vector3(Mathf.Cos(tagrad) * spd, 0, 0);
+                    //fishBody.velocity = new Vector3(0, spd, 0);
                 }
             }
-            if(isNotFindBite == true)
+            if (isNotFindBite == true)
             {
-                //fish.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -90));
-                fishBody.velocity = new Vector3(0, Mathf.Sin(((myDirecDown == true)?270:90) * 3.14f / 180.0f) * ((myDirecDown == true) ? yspeed[1] : yspeed[0]), 0);
+                fish.transform.rotation = Quaternion.Euler(new Vector3(0, 0, -90));
+                fishBody.velocity = new Vector3(0, Mathf.Sin(((myDirecDown == true) ? 270 : 90) * 3.14f / 180.0f) * ((myDirecDown == true) ? yspeed[1] : yspeed[0]), 0);
             }
-        }
-        
 
-        
-        //まれに魚が滝を登れずに、少し落ちる
-        if (transform.position.y > GlobalField.globalField.Maincamera.transform.position.y)
-        {
-            if (Random.Range(0, 10000) < chanceFishFall)
+
+
+
+            //まれに魚が滝を登れずに、少し落ちる
+            if (transform.position.y > GlobalField.globalField.Maincamera.transform.position.y)
             {
-                myDirecDown = true;
-                healcost = Random.Range(30, 90);
+                if (Random.Range(0, 10000) < chanceFishFall)
+                {
+                    myDirecDown = true;
+                    healcost = Random.Range(30, 90);
+                }
+            }
+            if (myDirecDown == true)
+            {
+                healcnt++;
+                if (healcnt > healcost)
+                {
+                    myDirecDown = false;
+                    healcnt = 0;
+                }
             }
         }
-        if (myDirecDown == true)
+        else
         {
-            healcnt++;
-            if (healcnt > healcost)
-            {
-                myDirecDown = false;
-                healcnt = 0;
-            }
+            //fishBody.velocity = new Vector3(0, Mathf.Sin(tagrad) * yspeed[1], 0);
+            transform.position += new Vector3(0, -3.0f, 0);
         }
     }
     void BreakJudge()
     {
-        if (base.gameObject.transform.position.y >= GlobalField.globalField.destroyPoint[GlobalField.globalField.FISH])
+        if (isThisFishAlive == false)
+        {
+            if (transform.position.y <= GlobalField.globalField.destroyPoint[GlobalField.globalField.TRASH])
+            {
+                FishDelete();
+            }
+        }
+        else if (base.gameObject.transform.position.y >= GlobalField.globalField.destroyPoint[GlobalField.globalField.FISH])
         {
             FishDelete();
 
             GlobalField.globalField.score += 1;
         }
+
+        
     }
 
     void HitJudge()
@@ -217,7 +232,6 @@ public class SCFish : MonoBehaviour
                 continue;
             }
             trashCenterCoord = GlobalField.globalField.Trash[i].transform.position;
-            //trashScale = Trash.GetComponent<BoxCollider>().size;
             trashScale = GlobalField.globalField.Trash[i].transform.lossyScale / GlobalField.globalField.SCALEDIFFRENCIAL;
             if (fishCenterCoord.x - ((fishScale.x) / 2) <= trashCenterCoord.x + ((trashScale.x) / 2) - GlobalField.globalField.grazeDist &&
                 fishCenterCoord.x + ((fishScale.x) / 2) >= trashCenterCoord.x - ((trashScale.x) / 2) + GlobalField.globalField.grazeDist &&
@@ -232,23 +246,12 @@ public class SCFish : MonoBehaviour
             }
         }
     }
-    void BookHit()
-    {
-        for (i = 0; i < GlobalField.globalField.spoNumBook.max; i++)
-        {
-            if ((Book = GameObject.Find("book" + i)) == null)
-            {
-                continue;
-            }
-            bookCenterCoord = Book.transform.position;
-            bookScale = Book.GetComponent<BoxCollider>().size;
-            if (fishCenterCoord.x - ((fishScale.x) / 2) <= bookCenterCoord.x + ((bookScale.x) / 2) &&
-                fishCenterCoord.x + ((fishScale.x) / 2) >= bookCenterCoord.x - ((bookScale.x) / 2) &&
-                fishCenterCoord.y - ((fishScale.y) / 2) <= bookCenterCoord.y + ((bookScale.y) / 2) &&
-                fishCenterCoord.y + ((fishScale.y) / 2) >= bookCenterCoord.y - ((bookScale.y) / 2))
 
-                Book.GetComponent<BookDestory>().BookDelete(Book);
-        }
+    public void FishJammed()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+        myDirecDown = true;
+        FishDead();
     }
     public void FishDelete()
     {
@@ -256,7 +259,14 @@ public class SCFish : MonoBehaviour
         GlobalField.globalField.spoNumFish.num -= 1;
 
     }
-
+    public void FishDead()
+    {
+        isThisFishAlive = false;
+    }
+    public void FishSpown()
+    {
+        isThisFishAlive = true;
+    }
 
     //岩の位置の判定
     void rockjudge()
@@ -298,14 +308,16 @@ public class SCFish : MonoBehaviour
             {
                 //GlobalField.globalField.UILife[(GlobalField.globalField.life.num - 1)].GetComponent<SC_UILife>().LifeBreaking();
                 GlobalField.globalField.LifeDeclane();
-                FishDelete();
+                FishJammed();
+                //FishDelete();
             }
             else if (other.gameObject.CompareTag("Trash"))
             {
                 other.gameObject.GetComponent<SC_Trash>().TrashDelete();
                 //GlobalField.globalField.UILife[(GlobalField.globalField.life.num - 1)].GetComponent<SC_UILife>().LifeBreaking();
                 GlobalField.globalField.LifeDeclane();
-                FishDelete();
+                FishJammed();
+                //FishDelete();
             }
         }
         

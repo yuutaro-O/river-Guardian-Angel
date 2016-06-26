@@ -37,7 +37,9 @@ public class SceneManager : MonoBehaviour
         mainGameTags.Add("Trash");
         
         nowScene = (int)scene.TITLE;
+        spownPoint.GetComponent<RiverLineSpowner>().SpownRiverLine();
         changeScene(nowScene);
+
 
     }
 

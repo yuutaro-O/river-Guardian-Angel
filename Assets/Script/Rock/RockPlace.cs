@@ -23,10 +23,13 @@ public class RockPlace : MonoBehaviour
     int deActiveWave;
     [SerializeField]
     int reActiveWave;
+
+    bool[] RockPlacexflg;
     // Use this for initialization
     void Start()
     {
         i = 0;
+        RockPlacexflg = new bool[GlobalField.globalField.spownPointx.Length];
     }
     
     public void WaveRockPlacing()
@@ -41,12 +44,32 @@ public class RockPlace : MonoBehaviour
     }
     public GameObject RockPlacing()
     {
-        
+        int placePointx = Random.Range(0, GlobalField.globalField.spownPointx.Length);
+        if(RockPlacexflg[placePointx] == true)
+        {
+            for(int i = 0;i < RockPlacexflg.Length; i++)
+            {
+                if (RockPlacexflg[i] == false) {
+                    placePointx = i;
+                    break;
+                }
+            }
+        }
+
         GameObject ret;
-        placePoint = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0.15f, 0.85f), Random.Range(0.2f, 0.8f), (float)GlobalField.LEYER.ROCK));
+        placePoint = Camera.main.ViewportToWorldPoint(new Vector3(GlobalField.globalField.spownPointx[placePointx], Random.Range(0.2f, 0.8f), (float)GlobalField.LEYER.ROCK));
 
         ret = (GameObject)Instantiate(rock, placePoint, rock.transform.rotation);
         ret.transform.position = new Vector3(ret.transform.position.x, ret.transform.position.y,(float)GlobalField.LEYER.ROCK);
+        RockPlacexflg[placePointx] = true;
         return ret;
+    }
+
+    public void ResetRockPoint()
+    {
+        for(int i = 0;i < RockPlacexflg.Length; i++)
+        {
+            RockPlacexflg[i] = false;
+        }
     }
 }

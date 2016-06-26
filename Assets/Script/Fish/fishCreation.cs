@@ -44,6 +44,7 @@ public class fishCreation : MonoBehaviour
                         //copyFish = (GameObject)Instantiate(fish, new Vector3(globalField.fishspownPointx[(int)UnityEngine.Random.Range(0, 2)], globalField.fishSpownPoint.y, globalField.L_FISH), Quaternion.Euler(new Vector3(0, 0, 0)));
                         //copyFish = (GameObject)Instantiate(fish, globalField.fishSpownPoint[(int)(Random.Range(0, globalField.fishSpownPoint.Length - 1))], Quaternion.Euler(new Vector3(0, 0, 0)));
                         copyFish = (GameObject)Instantiate(fish, globalField.fishSpownPoint[(int)(Random.Range(0, globalField.fishSpownPoint.Length - 1))], fish.transform.rotation);
+                        copyFish.GetComponent<SCFish>().FishSpown();
                         copyFish.transform.SetParent(mainGame);
                         //copyFish.GetComponent<Transform>().localScale = new Vector3(1.0f, 1.0f, 1.0f);
                         globalField.spoNumFish.num += 1;
