@@ -7,8 +7,13 @@ public class WaveManager : MonoBehaviour {
     int gameoverPlayCnt;
     public float playSecond;
     float gameoverSecond;
+<<<<<<< HEAD
     bool pouseStats;
     public GameObject UI_changewave;
+=======
+    bool pouseStats;             //演出を再生中かどうか？
+    public GameObject UI_changewave;    //ウェーブチェンジのタイミングで表示されるテキスト
+>>>>>>> 294da04... 完成ビルド前の作業保存
     [SerializeField]
     ChanWave_gene SC_UI_changeGene;
     [SerializeField]
@@ -48,10 +53,18 @@ public class WaveManager : MonoBehaviour {
                                 pouseStats = true;
                                 isgameOver = true;
                                 UI_gameOver.SetActive(true);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
                             }
                             else
                             {
                                 pouseStats = true;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
                                 UI_changewave.SetActive(true);
                             }
                         }
@@ -61,6 +74,7 @@ public class WaveManager : MonoBehaviour {
             else
             {
                 if (isgameOver == true)
+<<<<<<< HEAD
                 {
                     gameoverCnt++;
                     if (gameoverCnt > gameoverPlayCnt)
@@ -77,7 +91,27 @@ public class WaveManager : MonoBehaviour {
                     UI_changewave.SetActive(false);
                     UI_ObjectiveFish.SetActive(false);
                     WaveRockPlace();
+=======
+                {
+                    gameoverCnt++;
+                    if (gameoverCnt > gameoverPlayCnt)
+                    {
+                        isgameOver = false;
+                        UI_gameOver.SetActive(false);
+                        sceneManager.changeScene(SceneManager.scene.RESULT);
+                    }
+>>>>>>> 294da04... 完成ビルド前の作業保存
                 }
+                else if (WavePouse() == true)
+                {
+                    pouseStats = false;
+                    cnt = 0;
+                    UI_changewave.SetActive(false);
+                    UI_ObjectiveFish.SetActive(false);
+                    WaveRockPlace();
+                }
+
+
             }
         }
 	}
@@ -131,6 +165,10 @@ public class WaveManager : MonoBehaviour {
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
     public bool GetPouseStats()
     {
         return pouseStats;

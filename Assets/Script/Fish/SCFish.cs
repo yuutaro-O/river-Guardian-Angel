@@ -16,6 +16,7 @@ public class SCFish : MonoBehaviour
     Vector3 bookScale;
     GameObject Book;
     int i;
+<<<<<<< HEAD
     bool isNotFindBite;
     bool isThisFishAlive;
     [SerializeField]
@@ -38,6 +39,34 @@ public class SCFish : MonoBehaviour
     {
         yspeed[0] = defSpd;
         yspeed[1] = 75.0f;
+=======
+
+    bool isNotFindBite;
+    bool isThisFishAlive;
+    [SerializeField]
+    float defSpd;                   //魚のy軸下り移動速度、将来削除予定
+    float[] yspeed = new float[2];  //魚のy軸移動速度　０…上り速度　１…下り速度
+
+    float spd = 100.0f;               //魚の移動速度
+    int healcnt = 0;                //魚回復用のカウント
+    int healcost = 0;               //魚が滝から落ちた際に、回復に必要とする時間
+    bool myDirecDown;               //魚の進行方向が下りかどうか
+    short chanceFishFall = 50;      //魚が滝から落ちない確率、整数型で、100.00%を10000として記述 //テストデータ0.5%
+    public GameObject fish;         //自分自身のアドレス
+    GameObject copyBite;            //エサに引き寄せる際に、えさのアドレスを持っておく
+    float tagrad;                   //エサをターゲットとした、ラジアン角
+    Rigidbody fishBody;
+    [SerializeField]
+    Sprite DeadTexture;
+
+    SpriteRenderer fishRenderer;
+    BoxCollider fishCollider;
+    // Use this for initialization
+    void Start()
+    {
+        yspeed[0] = defSpd; //上るときの速度
+        yspeed[1] = 75.0f;   //下るときの速度
+>>>>>>> 294da04... 完成ビルド前の作業保存
         myDirecDown = false;
         fishBody = GetComponent<Rigidbody>();
         fishRenderer = GetComponent<SpriteRenderer>();
@@ -164,6 +193,10 @@ public class SCFish : MonoBehaviour
             if (GlobalField.globalField.GetInvincible() == false)
             {
                 if (other.gameObject.CompareTag("Rock"))
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
                 {
                     GlobalField.globalField.LifeDeclane();
                     FishJammed();
@@ -175,6 +208,7 @@ public class SCFish : MonoBehaviour
                     other.gameObject.GetComponent<SC_Trash>().TrashDelete();
                 }
             }
+
         }
     }
 }

@@ -15,6 +15,11 @@ public class SceneManager : MonoBehaviour
     byte nowScene;
     GameObject spownPoint;
     WaveManager waveManager;
+<<<<<<< HEAD
+=======
+
+    // Use this for initialization
+>>>>>>> 294da04... 完成ビルド前の作業保存
     void Start()
     {
         spownPoint = GameObject.Find("SpownPoint");
@@ -27,6 +32,10 @@ public class SceneManager : MonoBehaviour
         spownPoint.GetComponent<RiverLineSpowner>().SpownRiverLine();
         changeScene(nowScene);
         GameObject.FindGameObjectWithTag("SpownPoint").GetComponent<WaveManager>().AllRockDelete();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
     }
     void Update()
     {
@@ -35,6 +44,10 @@ public class SceneManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 GlobalField.globalField.pouseFlg = changePouse(!(pouseMenu.activeInHierarchy));
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
             }
         }
     }
@@ -73,10 +86,22 @@ public class SceneManager : MonoBehaviour
     }
     void exitMainGame()
     {
+<<<<<<< HEAD
+=======
+        
+        
+        int i;
+        int k = 0;
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
         GlobalField.globalField.FishDeleteAll();
         GlobalField.globalField.TrashDeleteAll();
         GlobalField.globalField.RockDeleteAll();
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
     public byte GetNowScene()
     {
         return nowScene;

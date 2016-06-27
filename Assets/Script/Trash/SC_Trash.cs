@@ -21,6 +21,10 @@ public class SC_Trash : MonoBehaviour
         {
             trashBody.velocity = new Vector3(0, 0, 0);
         }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
     }
     void Move()
     {
@@ -45,6 +49,11 @@ public class SC_Trash : MonoBehaviour
         {
             tagrad = Mathf.Atan2(other.gameObject.transform.position.y - transform.position.y, other.gameObject.transform.position.x - transform.position.x);
             transform.position += new Vector3(3.0f, 0, 0);
+<<<<<<< HEAD
+=======
+            //trashBody.velocity = new Vector3((Mathf.Cos(tagrad) * trashMoveSpd) * -1, 0, 0);
+            //trashBody.AddForce(new Vector3((Mathf.Cos(tagrad) * trashMoveSpd), 0, 0));
+>>>>>>> 294da04... 完成ビルド前の作業保存
         }
     }
 }

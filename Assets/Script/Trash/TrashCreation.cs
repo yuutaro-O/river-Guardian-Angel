@@ -12,10 +12,19 @@ public class TrashCreation : MonoBehaviour
     int j;
     public GameObject trash;
     SceneManager sceneManager;
+<<<<<<< HEAD
+=======
+
+    // Update is called once per frame
+>>>>>>> 294da04... 完成ビルド前の作業保存
     void Start()
     {
         sceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneManager>();
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
     void Update()
     {
         if (sceneManager.GetNowScene() == (byte)SceneManager.scene.MAINGAME)
@@ -53,6 +62,7 @@ public class TrashCreation : MonoBehaviour
                                         }
                                     }
                                 }
+
                             }
                         }
                     }

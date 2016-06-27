@@ -122,7 +122,13 @@ public class GlobalField : MonoBehaviour
         spoNumBook.max = 1;
         spoNumBite.num = 0;
         spoNumBite.max = 3;
+<<<<<<< HEAD
         waveFish.max = 5;
+=======
+
+        waveFish.max = 5;  //1ウェーブ目の魚の数
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
         lifeMaxSet();
         grazeDist = 12.5f;
         avoidDist = 100.0f;
@@ -180,9 +186,17 @@ public class GlobalField : MonoBehaviour
     {
         return invincible;
     }
+<<<<<<< HEAD
     public void RockDeleteAll()
     {
         int j;
+=======
+
+    public void RockDeleteAll()
+    {
+        int j;
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
         for (j = 0; j < spoNumRock.max; j++)
         {
             if (Rock[j] == null)
@@ -190,11 +204,19 @@ public class GlobalField : MonoBehaviour
                 continue;
             }
             Rock[j].GetComponent<SC_Rock>().deleteRock();
+<<<<<<< HEAD
+=======
+            
+>>>>>>> 294da04... 完成ビルド前の作業保存
         }
     }
     public void TrashDeleteAll()
     {
         int j;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 294da04... 完成ビルド前の作業保存
         for (j = 0; j < spoNumTrash.max; j++)
         {
             if (Trash[j] == null)
@@ -204,4 +226,8 @@ public class GlobalField : MonoBehaviour
             Trash[j].GetComponent<SC_Trash>().TrashDelete();
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 294da04... 完成ビルド前の作業保存
