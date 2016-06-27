@@ -20,15 +20,11 @@ public class SceneManager : MonoBehaviour
     byte nowScene;
 
     GameObject spownPoint;
+    WaveManager waveManager;
 
     // Use this for initialization
     void Start()
     {
-        /*
-        gameMode[TITLE] = GameObject.Find("Title");
-        gameMode[MAINGAME] = GameObject.Find("MainGame");
-        gameMode[RESULT] = GameObject.Find("Result");
-        */
         spownPoint = GameObject.Find("SpownPoint");
         mainGameTags.Add("Fish");
         mainGameTags.Add("Bite");
@@ -39,17 +35,20 @@ public class SceneManager : MonoBehaviour
         nowScene = (int)scene.TITLE;
         spownPoint.GetComponent<RiverLineSpowner>().SpownRiverLine();
         changeScene(nowScene);
-
+        GameObject.FindGameObjectWithTag("SpownPoint").GetComponent<WaveManager>().AllRockDelete();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (nowScene == (int)scene.MAINGAME)
         {
-            GlobalField.globalField.pouseFlg = changePouse(!(pouseMenu.activeInHierarchy));
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                GlobalField.globalField.pouseFlg = changePouse(!(pouseMenu.activeInHierarchy));
 
+            }
         }
         
     }
@@ -76,7 +75,7 @@ public class SceneManager : MonoBehaviour
         gameMode[orderScene].SetActive(true);
         switch(orderScene){
             case (int)scene.MAINGAME:
-                //spownPoint.GetComponent<UIFishLife>().LifeInstanciate();
+                GlobalField.globalField.reset();
                 break;
             default:
                 break;
@@ -101,45 +100,14 @@ public class SceneManager : MonoBehaviour
         
         int i;
         int k = 0;
-        for (k = 0; k < mainGameTags.Count; k++)
-        {
-            GameObject[] deleteObject = GameObject.FindGameObjectsWithTag(mainGameTags[k]);
-            
-            //gameobject[] deleteobject = gameobject.findgameobjectswithtag("fish");
-            for (i = 0; i < deleteObject.Length; i++)
-            {
-                Destroy(deleteObject[i]);
-            }
-            //spownPoint.GetComponent<UIFishLife>().AllLifeBreaking();
 
-        }
-        
-        /*
-        GameObject[] deleteObject = GameObject.FindGameObjectsWithTag(mainGameTags[0]);
-        for(int i = 0; i < deleteObject.Length; i++)
-        {
-            Destroy(deleteObject[i]);
-        }
-        deleteObject = GameObject.FindGameObjectsWithTag(mainGameTags[1]);
-        for (int i = 0; i < deleteObject.Length; i++)
-        {
-            Destroy(deleteObject[i]);
-        }
-        deleteObject = GameObject.FindGameObjectsWithTag(mainGameTags[2]);
-        for (int i = 0; i < deleteObject.Length; i++)
-        {
-            Destroy(deleteObject[i]);
-        }
-        deleteObject = GameObject.FindGameObjectsWithTag(mainGameTags[3]);
-        for (int i = 0; i < deleteObject.Length; i++)
-        {
-            Destroy(deleteObject[i]);
-        }
-        deleteObject = GameObject.FindGameObjectsWithTag(mainGameTags[4]);
-        for (int i = 0; i < deleteObject.Length; i++)
-        {
-            Destroy(deleteObject[i]);
-        }
-        */
+        GlobalField.globalField.FishDeleteAll();
+        GlobalField.globalField.TrashDeleteAll();
+        GlobalField.globalField.RockDeleteAll();
+    }
+
+    public byte GetNowScene()
+    {
+        return nowScene;
     }
 }

@@ -13,10 +13,13 @@ public class SCRiverLine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    transform.position += new Vector3(0,-(defspd + randspd),0);
-        if(transform.position.y < GlobalField.globalField.destroyPoint[GlobalField.globalField.TRASH] - (transform.lossyScale.y / GlobalField.globalField.SCALEDIFFRENCIAL))
+        if (GlobalField.globalField.pouseFlg == false)
         {
-            Reroute();
+            transform.position += new Vector3(0, -(defspd + randspd), 0);
+            if (transform.position.y < GlobalField.globalField.destroyPoint[GlobalField.globalField.TRASH] - (transform.lossyScale.y / GlobalField.globalField.SCALEDIFFRENCIAL))
+            {
+                Reroute();
+            }
         }
 	}
 

@@ -192,30 +192,17 @@ public class GlobalField : MonoBehaviour
         spoNumBite.num = 0;
         spoNumBite.max = 3;
 
-        //waveFish.max = 15;  //1ウェーブ目の魚の数
         waveFish.max = 5;  //1ウェーブ目の魚の数
 
         lifeMaxSet();
-        //life.num = 0;
         grazeDist = 12.5f;
-        //avoidDist = 0.03f;
         avoidDist = 100.0f;
-        //destroyPoint = 296.6f;
-        //destroyPoint = (Maincamera.GetComponent<Transform>().position.y) - (Maincamera.GetComponent<Camera>().orthographicSize);
-        //trunPoint = 299.1f;
         trunPoint = (Maincamera.GetComponent<Transform>().position.y) + (Maincamera.GetComponent<Camera>().orthographicSize);
-        //trashSpownPoint = new Vector3(xspownCenter, 299.0f, L_TRASH);
-        //trashSpownPoint = new Vector3(xspownCenter, trunPoint, L_TRASH);
-        //fishSpownPoint = new Vector3(xspownCenter, 296.7f, L_FISH);
-        //fishSpownPoint = new Vector3(xspownCenter, (Maincamera.GetComponent<Transform>().position.y) - (Maincamera.GetComponent<Camera>().orthographicSize) - 1, L_FISH);
         spownRangeDif = 1.0f;
         
         placeSecondCnt = 0;
         wave = 1;
         score = 0;
-        //trashMoveSpd = 0.005f;
-
-        //avoidSpeed = 0.015f;
         avoidSpeed = 12.0f;
         //岩配列の初期化
         Rock = new GameObject[spoNumRock.max];
@@ -261,6 +248,10 @@ public class GlobalField : MonoBehaviour
 
         for (j = 0; j < spoNumFish.max; j++)
         {
+            if(Fish[j] == null)
+            {
+                continue;
+            }
             Fish[j].GetComponent<SCFish>().FishDelete();
         }
     }
@@ -268,5 +259,33 @@ public class GlobalField : MonoBehaviour
     public bool GetInvincible()
     {
         return invincible;
+    }
+
+    public void RockDeleteAll()
+    {
+        int j;
+
+        for (j = 0; j < spoNumRock.max; j++)
+        {
+            if (Rock[j] == null)
+            {
+                continue;
+            }
+            Rock[j].GetComponent<SC_Rock>().deleteRock();
+            
+        }
+    }
+    public void TrashDeleteAll()
+    {
+        int j;
+
+        for (j = 0; j < spoNumTrash.max; j++)
+        {
+            if (Trash[j] == null)
+            {
+                continue;
+            }
+            Trash[j].GetComponent<SC_Trash>().TrashDelete();
+        }
     }
 }

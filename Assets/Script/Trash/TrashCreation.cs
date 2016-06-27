@@ -14,43 +14,53 @@ public class TrashCreation : MonoBehaviour
     int i;
     int j;
     public GameObject trash;
+    SceneManager sceneManager;
 
     // Update is called once per frame
+    void Start()
+    {
+        sceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneManager>();
+    }
+
     void Update()
     {
-        TrashCreatable = true;
-        if (GlobalField.globalField.pouseFlg == false)
+        if (sceneManager.GetNowScene() == (byte)SceneManager.scene.MAINGAME)
         {
-            if (Random.Range(0, 10000) >= basePoint)
+            TrashCreatable = true;
+            if (GlobalField.globalField.pouseFlg == false)
             {
-                if (GlobalField.globalField.waveFish.num < GlobalField.globalField.waveFish.max)
+                if (Random.Range(0, 10000) >= basePoint)
                 {
-                    if (GlobalField.globalField.spoNumTrash.num < GlobalField.globalField.spoNumTrash.max)
+                    if (GlobalField.globalField.waveFish.num < GlobalField.globalField.waveFish.max)
                     {
-                        if (GlobalField.globalField.wave >= activeWave) {
-                            for(j = 0;j < GlobalField.globalField.Fish.Length; j++)
+                        if (GlobalField.globalField.spoNumTrash.num < GlobalField.globalField.spoNumTrash.max)
+                        {
+                            if (GlobalField.globalField.wave >= activeWave)
                             {
-                                if (GlobalField.globalField.Fish[j] == null)
+                                for (j = 0; j < GlobalField.globalField.Fish.Length; j++)
                                 {
-                                    continue;
-                                }
-                                if (GlobalField.globalField.Fish[j].transform.position.y > GlobalField.globalField.TRASHSPOWNINACTIVEPOINT)
-                                {
-                                    TrashCreatable = false;
-                                }
-                            }
-                            if(TrashCreatable == true)
-                            {
-                                for (i = 0; i < GlobalField.globalField.spoNumTrash.max; i++)
-                                {
-                                    if (GlobalField.globalField.Trash[i] == null)
+                                    if (GlobalField.globalField.Fish[j] == null)
                                     {
-                                        TrashCreate();
-                                        break;
+                                        continue;
+                                    }
+                                    if (GlobalField.globalField.Fish[j].transform.position.y > GlobalField.globalField.TRASHSPOWNINACTIVEPOINT)
+                                    {
+                                        TrashCreatable = false;
                                     }
                                 }
+                                if (TrashCreatable == true)
+                                {
+                                    for (i = 0; i < GlobalField.globalField.spoNumTrash.max; i++)
+                                    {
+                                        if (GlobalField.globalField.Trash[i] == null)
+                                        {
+                                            TrashCreate();
+                                            break;
+                                        }
+                                    }
+                                }
+
                             }
-                            
                         }
                     }
                 }

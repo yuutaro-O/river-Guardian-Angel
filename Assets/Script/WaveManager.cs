@@ -9,7 +9,7 @@ public class WaveManager : MonoBehaviour {
     int gameoverPlayCnt;
     public float playSecond;            //再生時間（秒単位）
     float gameoverSecond;
-    public bool pouseStats;             //演出を再生中かどうか？
+    bool pouseStats;             //演出を再生中かどうか？
     public GameObject UI_changewave;    //ウェーブチェンジのタイミングで表示されるテキスト
     [SerializeField]
     ChanWave_gene SC_UI_changeGene;
@@ -43,52 +43,56 @@ public class WaveManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (pouseStats == false)
+        if (sceneManager.GetNowScene() == (byte)SceneManager.scene.MAINGAME)
         {
-            if (GlobalField.globalField.waveFish.num >= GlobalField.globalField.waveFish.max)
+            if (pouseStats == false)
             {
-                if (GlobalField.globalField.spoNumFish.num <= 0)
+                if (GlobalField.globalField.waveFish.num >= GlobalField.globalField.waveFish.max)
                 {
-                    if (GlobalField.globalField.spoNumTrash.num <= 0)
+                    if (GlobalField.globalField.spoNumFish.num <= 0)
                     {
-                        if (GlobalField.globalField.GetLife() <= 0)
+                        if (GlobalField.globalField.spoNumTrash.num <= 0)
                         {
-                            pouseStats = true;
-                            isgameOver = true;
-                            UI_gameOver.SetActive(true);
+                            if (GlobalField.globalField.GetLife() <= 0)
+                            {
+                                pouseStats = true;
+                                isgameOver = true;
+                                UI_gameOver.SetActive(true);
 
-                        }
-                        else
-                        {
-                            pouseStats = true;
+                            }
+                            else
+                            {
+                                pouseStats = true;
 
-                            UI_changewave.SetActive(true);
+                                UI_changewave.SetActive(true);
+                            }
                         }
                     }
                 }
             }
-        }
-        else
-        {
-            if(WavePouse() == true)
+            else
             {
-                pouseStats = false;
-                cnt = 0;
-                UI_changewave.SetActive(false);
-                UI_ObjectiveFish.SetActive(false);
-                WaveRockPlace();
-            }
-            if(isgameOver == true)
-            {
-                gameoverCnt++;
-                if(gameoverCnt > gameoverPlayCnt)
+                if (isgameOver == true)
                 {
-                    isgameOver = false;
-                    UI_gameOver.SetActive(false);
-                    sceneManager.changeScene(SceneManager.scene.RESULT);
+                    gameoverCnt++;
+                    if (gameoverCnt > gameoverPlayCnt)
+                    {
+                        isgameOver = false;
+                        UI_gameOver.SetActive(false);
+                        sceneManager.changeScene(SceneManager.scene.RESULT);
+                    }
                 }
+                else if (WavePouse() == true)
+                {
+                    pouseStats = false;
+                    cnt = 0;
+                    UI_changewave.SetActive(false);
+                    UI_ObjectiveFish.SetActive(false);
+                    WaveRockPlace();
+                }
+
+
             }
-            
         }
 	}
     /*ウェーブ変更演出関数*/
@@ -163,5 +167,10 @@ public class WaveManager : MonoBehaviour {
                 GlobalField.globalField.Rock[i].GetComponent<SC_Rock>().deleteRock();
             }
         }
+    }
+
+    public bool GetPouseStats()
+    {
+        return pouseStats;
     }
 }

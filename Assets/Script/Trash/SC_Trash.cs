@@ -20,6 +20,10 @@ public class SC_Trash : MonoBehaviour
             Move();
             Destroy();
         }
+        else
+        {
+            trashBody.velocity = new Vector3(0, 0, 0);
+        }
 
     }
 
@@ -52,13 +56,14 @@ public class SC_Trash : MonoBehaviour
 
         Destroy(base.gameObject);
     }
-    void OnCollisionEnter(Collision other)
+    void OnCollisionStay(Collision other)
     {
         if (other.gameObject.CompareTag("Rock"))
         {
-            Debug.Log(name + "isHitRock");
             tagrad = Mathf.Atan2(other.gameObject.transform.position.y - transform.position.y, other.gameObject.transform.position.x - transform.position.x);
-            trashBody.velocity = new Vector3((Mathf.Cos(tagrad) * trashMoveSpd), 70.0f, 0);
+            transform.position += new Vector3(3.0f, 0, 0);
+            //trashBody.velocity = new Vector3((Mathf.Cos(tagrad) * trashMoveSpd) * -1, 0, 0);
+            //trashBody.AddForce(new Vector3((Mathf.Cos(tagrad) * trashMoveSpd), 0, 0));
         }
     }
 }
