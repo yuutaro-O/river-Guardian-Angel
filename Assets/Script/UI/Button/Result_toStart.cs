@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-
 public class Result_toStart : MonoBehaviour {
     public SceneManager sceneManager;
 	public void ButtonPush()

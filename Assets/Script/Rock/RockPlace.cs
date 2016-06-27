@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-
 public class RockPlace : MonoBehaviour
 {
     Vector2 mousePoint;
     bool pushFlg;
-    //int placeSecondCnt;
-    //GameObject globalField;
     [SerializeField]
     GameObject rock;
     public GameObject tapPoint;
@@ -14,24 +11,18 @@ public class RockPlace : MonoBehaviour
     bool isTouchUIActive = false;
     GameObject copyRock;
     Vector3 placePoint;
-
     int i;
-
     const string STR_ROCK = "rock";
-
     [SerializeField]
     int deActiveWave;
     [SerializeField]
     int reActiveWave;
-
     bool[] RockPlacexflg;
-    // Use this for initialization
     void Start()
     {
         i = 0;
         RockPlacexflg = new bool[GlobalField.globalField.spownPointx.Length];
     }
-    
     public void WaveRockPlacing()
     {
         if (GlobalField.globalField.wave >= reActiveWave || GlobalField.globalField.wave <= deActiveWave)
@@ -55,16 +46,13 @@ public class RockPlace : MonoBehaviour
                 }
             }
         }
-
         GameObject ret;
         placePoint = Camera.main.ViewportToWorldPoint(new Vector3(GlobalField.globalField.spownPointx[placePointx], Random.Range(0.2f, 0.8f), (float)GlobalField.LEYER.ROCK));
-
         ret = (GameObject)Instantiate(rock, placePoint, rock.transform.rotation);
         ret.transform.position = new Vector3(ret.transform.position.x, ret.transform.position.y,(float)GlobalField.LEYER.ROCK);
         RockPlacexflg[placePointx] = true;
         return ret;
     }
-
     public void ResetRockPoint()
     {
         for(int i = 0;i < RockPlacexflg.Length; i++)

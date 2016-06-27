@@ -6,24 +6,13 @@ public class RiverLineSpowner : MonoBehaviour {
     GameObject P_RiverLine;
     [SerializeField]
     float[] RiverRandomSpeed;
-
     bool[] spownRiverLineflg;
     int spownNumber;
-    void Start()
-    {
-        
-       
-    }
-
-    /*ゲーム開始時に川の流れを示す線をスポーン
-       一度スポーンさせたらそれをループ再生してごまかすので、ゲーム開始時のみ呼び出し
-         */
     public void SpownRiverLine()
     {
         spownRiverLineflg = new bool[GlobalField.globalField.spownPointx.Length];
         for (int i = 0;i < GlobalField.globalField.spoNumRiverLine.max; i++)
         {
-            
             spownNumber = Random.Range(0, GlobalField.globalField.spoNumRiverLine.max - 1);
             if(spownRiverLineflg[spownNumber] == true) {
                 for(int j = 0; j < spownRiverLineflg.Length; j++)
@@ -40,7 +29,6 @@ public class RiverLineSpowner : MonoBehaviour {
             spownRiverLineflg[spownNumber] = true;
         }
     }
-
     public void RiverLineAllDelete()
     {
         for(int i = 0; i < GlobalField.globalField.RiverLine.Length; i++)

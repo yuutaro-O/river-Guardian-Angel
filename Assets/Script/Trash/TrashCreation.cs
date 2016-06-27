@@ -7,21 +7,15 @@ public class TrashCreation : MonoBehaviour
     short basePoint;
     [SerializeField]
     int activeWave;
-
     bool TrashCreatable;
-
-
     int i;
     int j;
     public GameObject trash;
     SceneManager sceneManager;
-
-    // Update is called once per frame
     void Start()
     {
         sceneManager = GameObject.FindGameObjectWithTag("SceneManager").GetComponent<SceneManager>();
     }
-
     void Update()
     {
         if (sceneManager.GetNowScene() == (byte)SceneManager.scene.MAINGAME)
@@ -59,7 +53,6 @@ public class TrashCreation : MonoBehaviour
                                         }
                                     }
                                 }
-
                             }
                         }
                     }
@@ -72,7 +65,6 @@ public class TrashCreation : MonoBehaviour
     {
         GlobalField.globalField.Trash[i] = (GameObject)Instantiate(trash, GlobalField.globalField.trashSpownPoint[Random.Range(0, GlobalField.globalField.trashSpownPoint.Length - 1)], Quaternion.Euler(new Vector3(0, 0, 0)));
         GlobalField.globalField.Trash[i].name = "trash" + i;
-
         GlobalField.globalField.spoNumTrash.num += 1;
     }
 }
